@@ -2,7 +2,7 @@
 kind: "article"
 created_at: "06/21/2012 20:44"
 title: "Mutt and SMTP Gmail/Google Apps"
-tags: [ 'mutt', 'gmail', 'google apps' ]
+tags: [ 'mutt', 'gmail', 'googleapps' ]
 ---
 <pre><code class='bash'>set postponed = "+[Gmail].Drafts" #offlineimap
 set record = "+[Gmail].Sent\ Mail" #offlineimap
