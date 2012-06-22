@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      Shell script that I use for recording screencasts psd2cms.ru
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            Shell script that I use for recording screencasts psd2cms.ru
+          </h1>
+          <pre><code class="bash">#!/bin/bash&#x000A;&#x000A;# list of programs we depend on&#x000A;progs="xdpyinfo grep head sed ffmpeg pacat parec sox"&#x000A;&#x000A;# check for programs we depend on&#x000A;result=0&#x000A;for prog in $progs&#x000A;do&#x000A;  type -p $prog &gt; /dev/null&#x000A;  if (( $? != 0 )); then&#x000A;    echo "Error: Cannot find required program '$prog'"&#x000A;    result=1&#x000A;  fi&#x000A;done&#x000A;if (( $result != 0 )); then&#x000A;  exit 1&#x000A;fi&#x000A;&#x000A;screenSize="640x480" # default if we cant detect it&#x000A;screenOffset="0,0" # default to top-left corner&#x000A;frameRate="24" # default frame rate&#x000A;baseName="capture" # default base filename for capture&#x000A;&#x000A;# attempt to detect the dimension of the screen for the default&#x000A;dimensions=`xdpyinfo | grep 'dimensions:' | head -1 | \&#x000A;  sed -e 's/^.* \([0-9]\+x[0-9]\+\) pixels.*$/\1/'`&#x000A;if [[ "$dimensions" =~ [0-9]+x[0-9]+ ]]; then&#x000A;  screenSize=$dimensions&#x000A;fi&#x000A;&#x000A;# collect command line settings&#x000A;while getopts 'hs:o:t:p' param ; do&#x000A;  case $param in&#x000A;    s)&#x000A;      screenSize="$OPTARG"&#x000A;      ;;&#x000A;    o)&#x000A;      screenOffset="$OPTARG"&#x000A;      ;;&#x000A;    t)&#x000A;      timeToRecord="$OPTARG"&#x000A;      ;;&#x000A;    *)&#x000A;      echo ""&#x000A;      echo "$0 - records screencast"&#x000A;      echo ""&#x000A;      echo "$0 [options] [base-filename]"&#x000A;      echo ""&#x000A;      echo "options:"&#x000A;      echo "	-h            show brief help"&#x000A;      echo "	-s      screensize to record as x"&#x000A;      echo "	-o    offset off recording area as ,"&#x000A;      echo "	-t      time to record (in seconds)"&#x000A;      echo ""&#x000A;      exit 0&#x000A;      ;;&#x000A;  esac&#x000A;done&#x000A;&#x000A;shift $(( $OPTIND - 1 ))&#x000A;&#x000A;# determine basename of files&#x000A;if [ -n "$1" ] ; then&#x000A;  baseName="$1"&#x000A;fi&#x000A;&#x000A;echo ""&#x000A;echo "Size = $screenSize"&#x000A;echo "Offset = $screenOffset"&#x000A;echo "Rate = $frameRate"&#x000A;echo "Filename = $baseName"&#x000A;&#x000A;# get ready to start recording&#x000A;echo ""&#x000A;if [ -n "$timeToRecord" ]; then&#x000A;  echo "Preparing to capture for $timeToRecord seconds."&#x000A;else&#x000A;  echo "Preparing to capture."&#x000A;  echo "Press ENTER when finished capturing."&#x000A;fi&#x000A;sleep 3&#x000A;echo ""&#x000A;&#x000A;# start playing silence to make sure there is always audio flowing&#x000A;pacat /dev/zero &amp;&#x000A;pidSilence=$!&#x000A;&#x000A;# starts recording video using x11grab to make mpeg2video&#x000A;ffmpeg -y -an \&#x000A;  -s "$screenSize" -r "$frameRate" -f x11grab -i :0.0+"$screenOffset" \&#x000A;  -s "$screenSize" -r "$frameRate" -aspect 16:10 -vcodec mpeg2video -sameq \&#x000A;  -f mpeg2video "$baseName.mpeg" &amp;&#x000A;pidVideo=$!&#x000A;&#x000A;# starts recording raw audio&#x000A;parec --format=s16le --rate=44100 --channels=1 $baseName.raw &amp;&#x000A;pidAudio=$!&#x000A;&#x000A;echo ""&#x000A;echo "Video recording started with process ID $pidVideo"&#x000A;echo "Audio recording started with process ID $pidAudio"&#x000A;echo ""&#x000A;&#x000A;# wait for recording to be done, either by timer or user hitting enter&#x000A;if [ -n "$timeToRecord" ]; then&#x000A;  sleep "$timeToRecord"&#x000A;else&#x000A;  read nothing&#x000A;fi&#x000A;&#x000A;# stop recordings&#x000A;echo ""&#x000A;echo "Terminating recordings ..."&#x000A;kill -15 $pidVideo $pidAudio &#x000A;kill -15 $pidSilence&#x000A;wait&#x000A;&#x000A;# filter and normalize the audio&#x000A;echo "" &#x000A;echo "Filtering and normalizing sound ..." &#x000A;sox --norm -s -b 16 -L -r 44100 -c 1 "$baseName.raw" "$baseName.wav"  highpass 65 lowpass 12k&#x000A;&#x000A;# encode video and audio into avi file&#x000A;echo "" &#x000A;echo "Encoding to final avi ..." &#x000A;ffmpeg -isync -i "$baseName.wav" -i "$baseName.mpeg" -acodec mp2 -ab 192k -vcodec copy "$baseName.avi"&#x000A;&#x000A;# convert to ogg&#x000A;#echo""&#x000A;#echo "convert to theora"&#x000A;#ffmpeg2theora "$baseName.avi" -o "$baseName.ogv"&#x000A;&#x000A;rm "$baseName.wav" "$baseName.raw"&#x000A;&#x000A;echo ""&#x000A;echo "DONE! Final media written in file $baseName.avi"&#x000A;&#x000A;echo ""&#x000A;exit 0&#x000A;</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

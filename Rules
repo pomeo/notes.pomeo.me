@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 
 # A few helpful tips about the Rules file:
 #
@@ -13,31 +14,49 @@
 #   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
 #   because “*” matches zero or more characters.
 
-compile '/stylesheet/' do
-  # don’t filter or layout
+preprocess do
+  items.delete_if { |item| item[:publish] == false }
+
+  copy_static
+  create_tag_pages
+  add_update_item_attributes
+end
+
+compile '/' do
+  filter :kramdown
+  layout 'main'
+end
+
+compile 'atom.xml' do
+  filter :erb
 end
 
 compile '*' do
   if item.binary?
     # don’t filter binary items
+  elsif item[:extension] == 'md'
+    filter :kramdown
+    layout 'default'
   else
-    filter :erb
+    filter :haml
     layout 'default'
   end
 end
 
-route '/stylesheet/' do
-  '/style.css'
+route 'atom.xml' do
+  item.identifier.chop + '.xml'
 end
 
 route '*' do
   if item.binary?
-    # Write item with identifier /foo/ to /foo.ext
     item.identifier.chop + '.' + item[:extension]
   else
-    # Write item with identifier /foo/ to /foo/index.html
-    item.identifier + 'index.html'
+    if item.identifier == '/'
+      item.identifier + 'index.html'
+    else
+      item.identifier.chop + '.html'
+    end
   end
 end
 
-layout '*', :erb
+layout '*', :haml

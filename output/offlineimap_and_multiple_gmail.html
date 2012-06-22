@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      offlineimap and multiple gmail
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            offlineimap and multiple gmail
+          </h1>
+          <p>~/.offlineimaprc</p>
+          <pre><code class="bash">[general]&#x000A;accounts = account1@gmail.com, account2@gmail.com, account3@gmail.com&#x000A;maxsyncaccounts = 3&#x000A;socktimeout = 60&#x000A;ui = TTY.TTYUI&#x000A;&#x000A;[Account account1@gmail.com]&#x000A;localrepository = account1@gmail.com-local&#x000A;remoterepository = account1@gmail.com-remote&#x000A;&#x000A;[Repository account1@gmail.com-local]&#x000A;type = Maildir&#x000A;localfolders = ~/Mail/account1@gmail.com&#x000A;&#x000A;[Repository account1@gmail.com-remote]&#x000A;type = IMAP&#x000A;remotehost = imap.gmail.com&#x000A;remoteuser = account1@gmail.com&#x000A;remotepass = password&#x000A;ssl = yes&#x000A;realdelete = no&#x000A;&#x000A;[Account account2@gmail.com]&#x000A;localrepository = account2@gmail.com-local&#x000A;remoterepository = account2@gmail.com-remote&#x000A;&#x000A;[Repository account2@gmail.com-local]&#x000A;type = Maildir&#x000A;localfolders = ~/Mail/account2@gmail.com&#x000A;&#x000A;[Repository account2@gmail.com-remote]&#x000A;type = IMAP&#x000A;remotehost = imap.gmail.com&#x000A;remoteuser = account2@gmail.com&#x000A;remotepass = password&#x000A;ssl = yes&#x000A;realdelete = no&#x000A;&#x000A;[Account account3@gmail.com]&#x000A;localrepository = account3@gmail.com-local&#x000A;remoterepository = account3@gmail.com-remote&#x000A;&#x000A;[Repository account3@gmail.com-local]&#x000A;type = Maildir&#x000A;localfolders = ~/Mail/account3@gmail.com&#x000A;&#x000A;[Repository account3@gmail.com-remote]&#x000A;type = IMAP&#x000A;remotehost = imap.gmail.com&#x000A;remoteuser = account3@gmail.com&#x000A;remotepass = password&#x000A;ssl = yes&#x000A;realdelete = no&#x000A;</code></pre>
+          
+          <p><strong>crontab -e</strong></p>
+          
+          <pre><code class="bash">*/10 * * * * offlineimap -o -q -u Noninteractive.Basic&#x000A;* */1 * * * offlineimap -o -u Noninteractive.Basic&#x000A;</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

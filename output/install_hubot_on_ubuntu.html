@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      Install hubot on ubuntu
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            Install hubot on ubuntu
+          </h1>
+          <p><a href="http://hubot.github.com/">Hubot</a></p>
+          <pre><code class="bash">$ sudo useradd -s '/bin/bash' -d '/home/hubot' -m hubot&#x000A;$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev&#x000A;$ sudo su hubot &amp;&amp; cd ~&#x000A;$ git clone git://github.com/creationix/nvm.git ~/.nvm&#x000A;$ . ~/.nvm/nvm.sh&#x000A;$ nvm install v0.x.x&#x000A;$ nvm use v0.x.x&#x000A;$ npm install -g hubot hubot-gtalk coffee-script&#x000A;</code></pre>
+          <p>and without ‘-g’</p>
+          <pre><code class="bash">$ npm install node-stringprep optparse&#x000A;</code></pre>
+          <p>create file</p>
+          <pre><code class="bash">/etc/supervisor/conf.d/hubot.conf&#x000A;</code></pre>
+          <p>with</p>
+          <pre><code class="bash">[program:hubot]&#x000A;command=hubot -a gtalk&#x000A;directory=/home/hubot&#x000A;user=hubot&#x000A;autostart=true&#x000A;autorestart=true&#x000A;startretries=3&#x000A;stdout_logfile=/home/hubot/out.log&#x000A;stdout_logfile_maxbytes=1MB&#x000A;stdout_logfile_backups=10&#x000A;stderr_logfile=/home/hubot/error.log&#x000A;stderr_logfile_maxbytes=1MB&#x000A;stderr_logfile_backups=10&#x000A;stopsignal=TERM&#x000A;environment=HOME='/home/hubot',USER='hubot',HUBOT_GTALK_USERNAME='user@google.com',&#x000A;HUBOT_GTALK_PASSWORD='password',HUBOT_GTALK_WHITELIST_USERS='user@jabber.com'&#x000A;</code></pre>
+          <p>open</p>
+          <pre><code class="bash">/etc/init.d/supervisor&#x000A;</code></pre>
+          <p>find PATH and add <strong>/home/hubot/.nvm/v0.x.x/bin</strong></p>
+          <pre><code class="bash">PATH=/home/hubot/.nvm/v0.x.x/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr&#x000A;</code></pre>
+          <p>that’s all</p>
+          <pre><code class="bash">$ sudo service supervisor start&#x000A;</code></pre>
+          <p>look <strong>/home/hubot/error.log</strong> for errors</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

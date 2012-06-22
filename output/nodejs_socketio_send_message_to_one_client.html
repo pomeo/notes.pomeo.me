@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      node.js + socket.io = send message to one client
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            node.js + socket.io = send message to one client
+          </h1>
+          <pre><code class="javascript">//client&#x000A;<script type="text/javascript">&#x000A;  var socket = new io.Socket();&#x000A;  socket.connect();&#x000A;  socket.on('connect', function(){&#x000A;    socket.send({key: socket.transport.sessionid});&#x000A;  });&#x000A;  socket.on('message', function(data){&#x000A;    alert(data);&#x000A;  });&#x000A;  socket.on('disconnect', function(){&#x000A;    &#x000A;  });&#x000A;</script>&#x000A;&#x000A;//server&#x000A;var socket = io.listen(app);&#x000A;socket.on('connection', function(client) {&#x000A;    client.on('message', function(message) {&#x000A;        if(message.key) {&#x000A;          socket.clients[message.key].send('Hello world');&#x000A;        }&#x000A;      });&#x000A;  });&#x000A;</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

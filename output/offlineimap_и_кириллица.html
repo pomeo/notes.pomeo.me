@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      offlineimap и кириллица
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            offlineimap и кириллица
+          </h1>
+          <p>~/.utf7.py</p>
+          <pre><code class="python">import binascii                               &#x000A;import codecs                                 &#x000A;&#x000A;# encoding&#x000A;&#x000A;def modified_base64(s):&#x000A;    s = s.encode('utf-16be')                                                              &#x000A;    return binascii.b2a_base64(s).rstrip('\n=').replace('/', ',')                                                                                                                                    &#x000A;&#x000A;def doB64(_in, r):                                                                                                      &#x000A;    if _in:                                                             &#x000A;        r.append('&amp;%s-' % modified_base64(''.join(_in)))                                                                                                                       &#x000A;        del _in[:]                                                      &#x000A;&#x000A;def encoder(s):&#x000A;    r = []                                                    &#x000A;    _in = []                                                  &#x000A;    for c in s:&#x000A;        ordC = ord(c)                                                                                                                          &#x000A;        if 0x20 &lt;= ordC &lt;= 0x25 or 0x27 &lt;= ordC &lt;= 0x7e:                                                                                                    &#x000A;            doB64(_in, r)                                                                                                                       &#x000A;            r.append(c)                                                                                                                         &#x000A;        elif c == '&amp;':                                                                                                                                     &#x000A;            doB64(_in, r)                                                                                                                       &#x000A;            r.append('&amp;-')                                                                                                          &#x000A;        else:                                                                                  &#x000A;            _in.append(c)                                                                                                                       &#x000A;    doB64(_in, r)                                                                                                                               &#x000A;    return (str(''.join(r)), len(s))                                                       &#x000A;&#x000A;&#x000A;# decoding&#x000A;&#x000A;def modified_unbase64(s):&#x000A;    b = binascii.a2b_base64(s.replace(',', '/') + '===')                                                                                             &#x000A;    return unicode(b, 'utf-16be')                                                                               &#x000A;&#x000A;&#x000A;def decoder(s):&#x000A;    r = []                                                    &#x000A;    decode = []                                               &#x000A;    for c in s:&#x000A;        if c == '&amp;' and not decode:                                                 &#x000A;            decode.append('&amp;')                                                                                                      &#x000A;        elif c == '-' and decode:                                                                               &#x000A;            if len(decode) == 1:                                                                &#x000A;                r.append('&amp;')                                                                                                       &#x000A;            else:                                                                              &#x000A;                r.append(modified_unbase64(''.join(decode[1:])))                            &#x000A;            decode = []                                                 &#x000A;        elif decode:&#x000A;            decode.append(c)&#x000A;        else:&#x000A;            r.append(c)&#x000A;    if decode:&#x000A;        r.append(modified_unbase64(''.join(decode[1:])))&#x000A;    bin_str = ''.join(r)&#x000A;    return (bin_str, len(s))&#x000A;&#x000A;&#x000A;class StreamReader(codecs.StreamReader):&#x000A;    def decode(self, s, errors='strict'):&#x000A;        return decoder(s)&#x000A;&#x000A;&#x000A;class StreamWriter(codecs.StreamWriter):&#x000A;    def decode(self, s, errors='strict'):&#x000A;        return encoder(s)&#x000A;&#x000A;&#x000A;def imap4_utf_7(name):&#x000A;    if name == 'imap4-utf-7':&#x000A;        return (encoder, decoder, StreamReader, StreamWriter)&#x000A;codecs.register(imap4_utf_7)&#x000A;</code></pre>
+          <p>~/.offlineimaprc</p>
+          <pre><code class="python">[general]&#x000A;pythonfile = ~/.utf7.py&#x000A;&#x000A;[Repository account1@gmail.com-remote]&#x000A;nametrans = lambda foldername: foldername.decode('imap4-utf-7').encode('utf-8')&#x000A;</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

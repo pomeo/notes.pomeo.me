@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      express(node.js) + capistrano + supervisord
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            express(node.js) + capistrano + supervisord
+          </h1>
+          <p><strong><em>/etc/sudoers</em></strong></p>
+          <pre><code class="bash">user ALL=(ALL) PASSWD: ALL&#x000A;user ALL=NOPASSWD: /usr/bin/supervisorctl&#x000A;</code></pre>
+          <p>gem install capistrano-offroad</p>
+          
+          <p><strong><em>./config/deploy.rb</em></strong></p>
+          <pre><code class="bash"> #========================&#x000A; #CONFIG&#x000A; #========================&#x000A; set :application, "site"&#x000A;&#x000A; require "capistrano-offroad"&#x000A; offroad_modules "defaults", "supervisord"&#x000A; set :supervisord_conf, "/etc/supervisor/supervisord.conf"&#x000A; set :supervisord_pidfile, "/var/run/supervisord.pid"&#x000A;&#x000A; set :appweb, "#{application}.com"&#x000A; set :repository,  "gitosis@git.yourgitserver.com:#{application}"&#x000A; set :user, "user"&#x000A; set :use_sudo, false&#x000A; set :deploy_via, :copy&#x000A; set :scm, :git&#x000A; #========================&#x000A; #ROLES&#x000A; #========================&#x000A; role :web, "#{appweb}"&#x000A; set :deploy_to, "/var/www/#{appweb}/www"&#x000A;</code></pre>
+          <p><strong><em>/etc/supervisor/conf.d/site.conf</em></strong></p>
+          <pre><code class="bash">[program:site]&#x000A; command=/usr/local/bin/node app.js&#x000A; directory=/var/www/site.com/www/current/&#x000A; user=nobody&#x000A; autostart=true&#x000A; autorestart=true&#x000A; startretries=3&#x000A; stdout_logfile=/var/www/site.com/www/shared/log/server.log&#x000A; stdout_logfile_maxbytes=1MB&#x000A; stdout_logfile_backups=10&#x000A; stderr_logfile=/var/www/site.com/www/shared/log/error.log&#x000A; stderr_logfile_maxbytes=1MB&#x000A; stderr_logfile_backups=10&#x000A; stopsignal=TERM&#x000A; environment=NODE_ENV=production&#x000A;</code></pre>
+          <p><strong><em>cap deploy:status</em></strong> - show supervisor processes<br />
+          <strong><em>cap deploy:restart</em></strong> - restart all node.js</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

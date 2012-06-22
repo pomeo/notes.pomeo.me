@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      urxvt 256color Ubuntu
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            urxvt 256color Ubuntu
+          </h1>
+          <pre><code class="bash">mkdir urxvt&#x000A;cd urxvt&#x000A;apt-get source rxvt-unicode&#x000A;cd rxvt-unicode-?.?/&#x000A;patch -p1 &lt; doc/urxvt-8.2-256color.patch&#x000A;sudo apt-get build-dep rxvt-unicode&#x000A;dpkg-buildpackage -us -uc -rfakeroot&#x000A;sudo dpkg -i ../rxvt-unicode_?.?-1_i386(or amd64).deb&#x000A;</code></pre>
+          <p>make terminfo</p>
+          <pre><code class="bash">cd ~&#x000A;infocmp -L rxvt-unicode &gt; rxvt-unicode.terminfo&#x000A;nano rxvt-unicode.terminfo&#x000A;# Change from:&#x000A;#    lines_of_memory#0, max_colors#88, max_pairs#256,&#x000A;# to:&#x000A;#    lines_of_memory#0, max_colors#256, max_pairs#32767&#x000A;install -d .terminfo&#x000A;tic -o .terminfo/ rxvt-unicode.terminfo&#x000A;rm rxvt-unicode.terminfo&#x000A;</code></pre>
+          <p>Test <a href="http://notes.sovechkin.com/256colors.pl">256colors.pl</a>
+          <img src="/images/256colors.png" alt="256colors.pl" /></p>
+          
+          <p>rxvt-256color unknown terminal type<br />
+          installing <strong>ncurses-term</strong> package</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

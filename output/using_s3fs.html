@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      Using S3fs
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            Using S3fs
+          </h1>
+          <pre><code class="bash">$ sudo echo "AccessKeyID:SecretKey" &gt; /etc/passwd-s3fs&#x000A;</code></pre>
+          <p>you can find AccessKeyID and SecretKey out under AWS Menu -&gt; Your Account -&gt; Security Credentials</p>
+          <pre><code class="bash">$ sudo chmod 640 /etc/passwd-s3fs&#x000A;$ sudo s3fs bucketname /mountpoint&#x000A;</code></pre>
+          <p><strong>Setting up automatic mounts</strong><br />
+          add into /etc/fstab:</p>
+          <pre><code class="bash">s3fs#mybucket /mountpoint fuse url=https://s3.amazonaws.com 0 0&#x000A;</code></pre>
+          <p>Now you should be able to mount the filesystem with a regular mount command:</p>
+          
+          <pre><code class="bash">$ sudo mount /mountpoint&#x000A;</code></pre>
+          <p><strong>More mount options</strong><br />
+          By default, Fuse will lock the access to a file down to whoever ran the Fuse command. So, if you mount a filesystem as user foo, only foo will be able to access the filesystem- even root can’t get to it! If you want to put an S3 filesystem in /etc/fstab and have root mount it at boot but have a regular user or group own the filesystem, you can set uid and/or gid in /etc/fstab:</p>
+          <pre><code class="bash">s3fs#mybucket /mountpoint fuse uid=500,gid=500,url=https://s3.amazonaws.com 0 0&#x000A;</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

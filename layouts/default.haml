@@ -1,0 +1,21 @@
+!!! 5
+%html{ :lang => "ru" }
+  %head
+    %meta{ :charset => "utf-8" }
+    %meta{ :name => "viewport", :content => "width=775" }
+    %title
+      = @item[:title]
+    %link{ :href => "/stylesheets/styles.css", :rel => "stylesheet" }
+    %link{ :href => "/favicon.png", :rel => "shortcut icon", :type => "image/png" }
+    %link{ :rel => "alternate", :type => "application/rss+xml", :title => "RSS", :href => "/atom.xml"}
+    %script{ :src => "/javascripts/highlight.pack.js" }
+    %link{ :rel => "stylesheet", :href => "/stylesheets/zenburn.css" }
+    %script
+      hljs.initHighlightingOnLoad();
+  %body
+    %div.wrapper
+      %div.main
+        %div.post
+          %h1
+            = @item[:title]
+          = find_and_preserve(yield)

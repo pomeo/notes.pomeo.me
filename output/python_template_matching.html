@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      Python template matching
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            Python template matching
+          </h1>
+          <p><a href="http://en.wikipedia.org/wiki/Template_matching">Template matching</a></p>
+          <pre><code class="python"> from PIL import Image&#x000A; from PIL import ImageChops&#x000A;&#x000A; import datetime&#x000A;&#x000A; def matchTemplate(searchImage, templateImage):&#x000A;     minScore = -1000&#x000A;     matching_xs = 0&#x000A;     matching_ys = 0&#x000A;     # convert images to "L" to reduce computation by factor 3 "RGB"-&gt;"L"&#x000A;     searchImage = searchImage.convert(mode="L")&#x000A;     templateImage = templateImage.convert(mode="L")&#x000A;     searchWidth, searchHeight = searchImage.size&#x000A;     templateWidth, templateHeight = templateImage.size&#x000A;     # make a copy of templateImage and fill with color=1&#x000A;     templateMask = Image.new(mode="L", size=templateImage.size, color=1)&#x000A;     #loop over each pixel in the search image&#x000A;     for xs in range(searchWidth-templateWidth+1):&#x000A;         for ys in range(searchHeight-templateHeight+1):&#x000A;             #set some kind of score variable to "All equal"&#x000A;             score = templateWidth*templateHeight&#x000A;             # crop the part from searchImage&#x000A;             searchCrop = searchImage.crop((xs,ys,xs+templateWidth,ys+templateHeight))&#x000A;             diff = ImageChops.difference(templateImage, searchCrop)&#x000A;             notequal = ImageChops.darker(diff,templateMask)&#x000A;             countnotequal = sum(notequal.getdata())&#x000A;             score -= countnotequal&#x000A;&#x000A;             if minScore &lt; score:&#x000A;                 minScore = score&#x000A;                 matching_xs = xs&#x000A;                 matching_ys = ys&#x000A;&#x000A;     print "Location=",(matching_xs, matching_ys), "Score=",minScore&#x000A;     im1 = Image.new('RGB', (searchWidth, searchHeight), (80, 147, 0))&#x000A;     im1.paste(templateImage, ((matching_xs), (matching_ys)))&#x000A;     #searchImage.show()&#x000A;     #im1.show()&#x000A;     im1.save('template_matched_in_search.png')&#x000A;&#x000A; searchImage = Image.open("original.jpg")&#x000A; templateImage = Image.open("template.jpg")&#x000A;&#x000A; t1=datetime.datetime.now()&#x000A; matchTemplate(searchImage, templateImage)&#x000A; delta=datetime.datetime.now()-t1&#x000A; print "Time=%d.%d"%(delta.seconds,delta.microseconds)&#x000A; print "end"&#x000A;</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

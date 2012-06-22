@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='ru'>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=775' name='viewport' />
+    <title>
+      awesome window manager and mplayer hotkeys
+    </title>
+    <link href='/stylesheets/styles.css' rel='stylesheet' />
+    <link href='/favicon.png' rel='shortcut icon' type='image/png' />
+    <link href='/atom.xml' rel='alternate' title='RSS' type='application/rss+xml' />
+    <script src='/javascripts/highlight.pack.js'></script>
+    <link href='/stylesheets/zenburn.css' rel='stylesheet' />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div class='main'>
+        <div class='post'>
+          <h1>
+            awesome window manager and mplayer hotkeys
+          </h1>
+          <p>mplayer</p>
+          <pre><code class="bash">mkfifo ~/.mplayer/mplayer.pipe&#x000A;mplayer -slave -input file=~/.mplayer/mplayer.pipe&#x000A;</code></pre>
+          <p>test</p>
+          <pre><code class="bash">echo "pause" &gt; ~/.mplayer/mplayer.pipe&#x000A;</code></pre>
+          <p>xev</p>
+          <pre><code class="bash">KeyPress event, serial 28, synthetic NO, window 0x3400001,&#x000A;    root 0x15a, subw 0x0, time 20967870, (191,146), root:(832,554),&#x000A;    state 0x0, keycode &gt;&gt;&gt;&gt;&gt;146&lt;&lt;&lt;&lt;&lt; (keysym 0xff6a, XF86Pause), same_screen YES,&#x000A;    XLookupString gives 0 bytes: &#x000A;    XmbLookupString gives 0 bytes: &#x000A;    XFilterEvent returns: False&#x000A;</code></pre>
+          <p>/etc/xdg/awesome/rc.lua</p>
+          <pre><code class="bash">awful.key({}, "#146", function () os.execute("echo pause &gt; ~/.mplayer/mplayer.pipe") end),&#x000A;</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
