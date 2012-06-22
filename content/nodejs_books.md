@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/21/2012 22:34"
+created_at: "2012-06-21 22:34:17 +04:00"
 title: "Node.js eBooks"
 tags: [ 'nodejs' ]
 ---

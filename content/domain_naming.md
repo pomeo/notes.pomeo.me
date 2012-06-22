@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/22/2012 19:19"
+created_at: "2012-06-22 19:19:17 +04:00"
 title: "domain naming"
 tags: [ 'naming' ]
 ---

@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/17/2012 16:10"
+created_at: "2012-06-17 16:10:17 +04:00"
 title: "urxvt 256color Ubuntu"
 tags: [ 'ubuntu', 'urxvt', 'rxvt-unicode' ]
 ---

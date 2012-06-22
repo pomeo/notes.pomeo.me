@@ -27,7 +27,7 @@ compile '/' do
   layout 'main'
 end
 
-compile 'atom.xml' do
+compile '/atom.xml' do
   filter :erb
 end
 
@@ -41,10 +41,11 @@ compile '*' do
     filter :haml
     layout 'default'
   end
+  layout 'default' unless item[:layout] == "none"
 end
 
-route 'atom.xml' do
-  item.identifier.chop + '.xml'
+route '/atom.xml' do
+  item.identifier.chop
 end
 
 route '*' do

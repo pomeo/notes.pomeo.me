@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/22/2012 18:37"
+created_at: "2012-06-22 18:37:17 +04:00"
 title: "Python template matching"
 tags: [ 'python', 'image' ]
 ---

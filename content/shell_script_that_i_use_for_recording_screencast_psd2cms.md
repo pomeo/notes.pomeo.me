@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/22/2012 18:57"
+created_at: "2012-06-22 18:57:17 +04:00"
 title: "Shell script that I use for recording screencasts psd2cms.ru"
 tags: [ 'linux', 'screencast' ]
 ---

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>http://notes.sovechkin.com/</id>
+  <title>notes.sovechkin.com</title>
+  <updated>2012-06-22T15:48:17Z</updated>
+  <link rel="alternate" href="http://notes.sovechkin.com/"/>
+  <link rel="self" href="http://notes.sovechkin.com/atom.xml"/>
+  <author>
+    <name>Sergey Ovechkin</name>
+    <uri>http://sovechkin.com</uri>
+  </author>
+  <entry>
+    <id>tag:notes.sovechkin.com,2012-06-22:/oblivion_theme_for_emacs.html</id>
+    <title type="html">oblivion theme for Emacs</title>
+    <published>2012-06-22T15:48:17Z</published>
+    <updated>2012-06-22T15:47:35Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/oblivion_theme_for_emacs.html"/>
+    <content type="html">&lt;p&gt;&lt;a href="https://github.com/pomeo/oblivion-emacs"&gt;&lt;img src="http://img.sovechkin.com/oblivion.png" alt="oblivion theme for Emacs" /&gt;&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.sovechkin.com,2012-06-22:/install_lxc.html</id>
+    <title type="html">Install LXC (Linux Containers)</title>
+    <published>2012-06-22T15:33:17Z</published>
+    <updated>2012-06-22T15:38:55Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/install_lxc.html"/>
+    <content type="html">&lt;p&gt;&lt;a href="http://lxc.sourceforge.net"&gt;http://lxc.sourceforge.net&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ sudo apt-get install lxc bridge-utils
+$ sudo lxc-create -n name -t ubuntu -- -r lucid
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;create /etc/network/if-up.d/lxc&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;#!/bin/bash
+# script to setup a natted network for lxc guests
+CMD_BRCTL=/sbin/brctl
+CMD_IFCONFIG=/sbin/ifconfig
+CMD_IPTABLES=/sbin/iptables
+CMD_ROUTE=/sbin/route
+NETWORK_BRIDGE_DEVICE_NAT=lxc-bridge-nat
+HOST_NETDEVICE=eth0
+PRIVATE_GW_NAT=10.0.2.1
+PRIVATE_NETMASK=255.255.255.0
+
+${CMD_BRCTL} addbr ${NETWORK_BRIDGE_DEVICE_NAT}
+${CMD_BRCTL} setfd ${NETWORK_BRIDGE_DEVICE_NAT} 0
+${CMD_IFCONFIG} ${NETWORK_BRIDGE_DEVICE_NAT} ${PRIVATE_GW_NAT} netmask ${PRIVATE_NETMASK} promisc up
+${CMD_IPTABLES} -t nat -A POSTROUTING -o ${HOST_NETDEVICE} -j MASQUERADE
+echo 1 &amp;gt; /proc/sys/net/ipv4/ip_forward
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;insert in &lt;em&gt;/var/lib/lxc/name/config&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;lxc.network.type = veth
+lxc.network.flags = up
+lxc.network.link = lxc-bridge-nat                      
+lxc.network.name = eth0                                         
+lxc.network.hwaddr = ac:de:48:00:0x:xx
+lxc.network.ipv4 = 10.0.2.xxx/24
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;echo "nameserver 8.8.8.8" &amp;gt; /var/lib/lxc/name/rootfs/etc/resolvconf/resolv.conf.d/base
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;edit &lt;em&gt;/var/lib/lxc/name/rootfs/etc/network/interfaces&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+  address   10.0.2.xxx
+  netmask   255.255.255.0
+  gateway   10.0.2.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;run&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ sudo lxc-start --name name_container
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;login &lt;em&gt;root&lt;/em&gt; / password &lt;em&gt;root&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;for boot on startup&lt;br /&gt;
+LXC &amp;lt; 0.7.5&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ sudo ln -s /var/lib/lxc/name/config /etc/lxc/name.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;edit &lt;em&gt;/etc/default/lxc&lt;/em&gt; add&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;CONTAINERS="name"
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;LXC &amp;gt;=0.7.5&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ sudo ln -s /var/lib/lxc/name/config /etc/lxc/auto/name.conf
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.sovechkin.com,2012-06-22:/install_hubot_on_ubuntu.html</id>
+    <title type="html">Install hubot on ubuntu</title>
+    <published>2012-06-22T15:25:17Z</published>
+    <updated>2012-06-22T15:31:43Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/install_hubot_on_ubuntu.html"/>
+    <content type="html">&lt;p&gt;&lt;a href="http://hubot.github.com/"&gt;Hubot&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ sudo useradd -s '/bin/bash' -d '/home/hubot' -m hubot
+$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev
+$ sudo su hubot &amp;amp;&amp;amp; cd ~
+$ git clone git://github.com/creationix/nvm.git ~/.nvm
+$ . ~/.nvm/nvm.sh
+$ nvm install v0.x.x
+$ nvm use v0.x.x
+$ npm install -g hubot hubot-gtalk coffee-script
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and without ‘-g’&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ npm install node-stringprep optparse
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;create file&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;/etc/supervisor/conf.d/hubot.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;with&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;[program:hubot]
+command=hubot -a gtalk
+directory=/home/hubot
+user=hubot
+autostart=true
+autorestart=true
+startretries=3
+stdout_logfile=/home/hubot/out.log
+stdout_logfile_maxbytes=1MB
+stdout_logfile_backups=10
+stderr_logfile=/home/hubot/error.log
+stderr_logfile_maxbytes=1MB
+stderr_logfile_backups=10
+stopsignal=TERM
+environment=HOME='/home/hubot',USER='hubot',HUBOT_GTALK_USERNAME='user@google.com',
+HUBOT_GTALK_PASSWORD='password',HUBOT_GTALK_WHITELIST_USERS='user@jabber.com'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;open&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;/etc/init.d/supervisor
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;find PATH and add &lt;strong&gt;/home/hubot/.nvm/v0.x.x/bin&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;PATH=/home/hubot/.nvm/v0.x.x/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;that’s all&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ sudo service supervisor start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;look &lt;strong&gt;/home/hubot/error.log&lt;/strong&gt; for errors&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.sovechkin.com,2012-06-22:/tar_directory.html</id>
+    <title type="html">tar directory</title>
+    <published>2012-06-22T15:20:17Z</published>
+    <updated>2012-06-22T15:20:54Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/tar_directory.html"/>
+    <content type="html">&lt;pre&gt;&lt;code class="bash"&gt;$ tar --create --file=file.tar.gz dir
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.sovechkin.com,2012-06-22:/domain_naming.html</id>
+    <title type="html">domain naming</title>
+    <published>2012-06-22T15:19:17Z</published>
+    <updated>2012-06-22T15:20:17Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/domain_naming.html"/>
+    <content type="html">&lt;pre&gt;&lt;code class="bash"&gt;$ pwgen -A0 5
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+</feed>

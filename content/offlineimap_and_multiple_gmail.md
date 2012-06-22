@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/17/2012 16:24"
+created_at: "2012-06-17 16:24:17 +04:00"
 title: "offlineimap and multiple gmail"
 tags: [ 'offlineimap', 'gmail' ]
 ---

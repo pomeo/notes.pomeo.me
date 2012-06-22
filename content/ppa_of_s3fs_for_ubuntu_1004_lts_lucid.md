@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/21/2012 21:59"
+created_at: "2012-06-21 21:59:17 +04:00"
 title: "PPA of S3fs for Ubuntu 10.04 LTS Lucid"
 tags: [ 's3fs' ]
 ---

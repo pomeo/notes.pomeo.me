@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/21/2012 19:56"
+created_at: "2012-06-21 19:56:17 +04:00"
 title: "offlineimap и кириллица"
 tags: [ 'offlineimap' ]
 ---

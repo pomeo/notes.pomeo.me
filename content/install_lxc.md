@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/22/2012 19:33"
+created_at: "2012-06-22 19:33:17 +04:00"
 title: "Install LXC (Linux Containers)"
 tags: [ 'lxc', 'linux' ]
 ---

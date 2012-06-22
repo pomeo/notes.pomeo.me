@@ -1,6 +1,6 @@
 ---
 kind: "article"
-created_at: "06/21/2012 20:43"
+created_at: "2012-06-21 20:43:17 +04:00"
 title: "PPA of fresh node.js for Ubuntu 10.04 LTS Lucid"
 tags: [ 'nodejs', 'ubuntu' ]
 ---
