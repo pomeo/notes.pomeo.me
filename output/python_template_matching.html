@@ -25,6 +25,157 @@
           <p><a href="http://en.wikipedia.org/wiki/Template_matching">Template matching</a></p>
           <pre><code class="python"> from PIL import Image&#x000A; from PIL import ImageChops&#x000A;&#x000A; import datetime&#x000A;&#x000A; def matchTemplate(searchImage, templateImage):&#x000A;     minScore = -1000&#x000A;     matching_xs = 0&#x000A;     matching_ys = 0&#x000A;     # convert images to "L" to reduce computation by factor 3 "RGB"-&gt;"L"&#x000A;     searchImage = searchImage.convert(mode="L")&#x000A;     templateImage = templateImage.convert(mode="L")&#x000A;     searchWidth, searchHeight = searchImage.size&#x000A;     templateWidth, templateHeight = templateImage.size&#x000A;     # make a copy of templateImage and fill with color=1&#x000A;     templateMask = Image.new(mode="L", size=templateImage.size, color=1)&#x000A;     #loop over each pixel in the search image&#x000A;     for xs in range(searchWidth-templateWidth+1):&#x000A;         for ys in range(searchHeight-templateHeight+1):&#x000A;             #set some kind of score variable to "All equal"&#x000A;             score = templateWidth*templateHeight&#x000A;             # crop the part from searchImage&#x000A;             searchCrop = searchImage.crop((xs,ys,xs+templateWidth,ys+templateHeight))&#x000A;             diff = ImageChops.difference(templateImage, searchCrop)&#x000A;             notequal = ImageChops.darker(diff,templateMask)&#x000A;             countnotequal = sum(notequal.getdata())&#x000A;             score -= countnotequal&#x000A;&#x000A;             if minScore &lt; score:&#x000A;                 minScore = score&#x000A;                 matching_xs = xs&#x000A;                 matching_ys = ys&#x000A;&#x000A;     print "Location=",(matching_xs, matching_ys), "Score=",minScore&#x000A;     im1 = Image.new('RGB', (searchWidth, searchHeight), (80, 147, 0))&#x000A;     im1.paste(templateImage, ((matching_xs), (matching_ys)))&#x000A;     #searchImage.show()&#x000A;     #im1.show()&#x000A;     im1.save('template_matched_in_search.png')&#x000A;&#x000A; searchImage = Image.open("original.jpg")&#x000A; templateImage = Image.open("template.jpg")&#x000A;&#x000A; t1=datetime.datetime.now()&#x000A; matchTemplate(searchImage, templateImage)&#x000A; delta=datetime.datetime.now()-t1&#x000A; print "Time=%d.%d"%(delta.seconds,delta.microseconds)&#x000A; print "end"&#x000A;</code></pre>
         </div>
+        <div class='separator'>
+          Blog Posts
+          <span class='feed'>
+            <a href='/atom.xml' title='subscribe to rss'>subscribe to rss</a>
+          </span>
+        </div>
+        <ul class='posts'>
+          <li>
+            <a href='/oblivion_theme_for_emacs.html' title='oblivion theme for Emacs'>oblivion theme for Emacs</a>
+          </li>
+          <li>
+            <a href='/install_lxc.html' title='Install LXC (Linux Containers)'>Install LXC (Linux Containers)</a>
+          </li>
+          <li>
+            <a href='/install_hubot_on_ubuntu.html' title='Install hubot on ubuntu'>Install hubot on ubuntu</a>
+          </li>
+          <li>
+            <a href='/tar_directory.html' title='tar directory'>tar directory</a>
+          </li>
+          <li>
+            <a href='/domain_naming.html' title='domain naming'>domain naming</a>
+          </li>
+          <li>
+            <a href='/nodejs_move_file.html' title='node.js move file'>node.js move file</a>
+          </li>
+          <li>
+            <a href='/shell_script_that_i_use_for_recording_screencast_psd2cms.html' title='Shell script that I use for recording screencasts psd2cms.ru'>Shell script that I use for recording screencasts psd2cms.ru</a>
+          </li>
+          <li>
+            <a href='/nodejs_socketio_send_message_to_one_client.html' title='node.js + socket.io = send message to one client'>node.js + socket.io = send message to one client</a>
+          </li>
+          <li>
+            <a href='/python_template_matching.html' title='Python template matching'>Python template matching</a>
+          </li>
+          <li>
+            <a href='/linux_fastest_console_screenshot.html' title='Linux fastest console screenshot'>Linux fastest console screenshot</a>
+          </li>
+          <li>
+            <a href='/nodejs_books.html' title='Node.js eBooks'>Node.js eBooks</a>
+          </li>
+          <li>
+            <a href='/using_s3fs.html' title='Using S3fs'>Using S3fs</a>
+          </li>
+          <li>
+            <a href='/ppa_of_s3fs_for_ubuntu_1004_lts_lucid.html' title='PPA of S3fs for Ubuntu 10.04 LTS Lucid'>PPA of S3fs for Ubuntu 10.04 LTS Lucid</a>
+          </li>
+          <li>
+            <a href='/express_nodejs_capistrano_supervisord.html' title='express(node.js) + capistrano + supervisord'>express(node.js) + capistrano + supervisord</a>
+          </li>
+          <li>
+            <a href='/ppa_of_fresh_offlineimap_for_ubuntu_1040_lts_lucid.html' title='PPA of fresh OfflineIMAP for Ubuntu 10.04 LTS Lucid'>PPA of fresh OfflineIMAP for Ubuntu 10.04 LTS Lucid</a>
+          </li>
+          <li>
+            <a href='/mutt_and_smtp_gmail_google_apps.html' title='Mutt and SMTP Gmail/Google Apps'>Mutt and SMTP Gmail/Google Apps</a>
+          </li>
+          <li>
+            <a href='/ppa_of_fresh_nodejs_for_ubuntu_1004_lts_lucid.html' title='PPA of fresh node.js for Ubuntu 10.04 LTS Lucid'>PPA of fresh node.js for Ubuntu 10.04 LTS Lucid</a>
+          </li>
+          <li>
+            <a href='/mplayer_pipe_in_config.html' title='mplayer.pipe in config'>mplayer.pipe in config</a>
+          </li>
+          <li>
+            <a href='/offlineimap_и_кириллица.html' title='offlineimap и кириллица'>offlineimap и кириллица</a>
+          </li>
+          <li>
+            <a href='/awesome_window_manager_and_mplayer_hotkeys.html' title='awesome window manager and mplayer hotkeys'>awesome window manager and mplayer hotkeys</a>
+          </li>
+          <li>
+            <a href='/offlineimap_and_multiple_gmail.html' title='offlineimap and multiple gmail'>offlineimap and multiple gmail</a>
+          </li>
+          <li>
+            <a href='/urxvt_256color_ubuntu.html' title='urxvt 256color Ubuntu'>urxvt 256color Ubuntu</a>
+          </li>
+        </ul>
+        <div class='separator'>
+          Tags
+        </div>
+        <ul class='tags'>
+          <li>
+            <a href='/tags/offlineimap.html'>offlineimap</a>
+          </li>
+          <li>
+            <a href='/tags/linux.html'>linux</a>
+          </li>
+          <li>
+            <a href='/tags/screencast.html'>screencast</a>
+          </li>
+          <li>
+            <a href='/tags/nodejs.html'>nodejs</a>
+          </li>
+          <li>
+            <a href='/tags/ubuntu.html'>ubuntu</a>
+          </li>
+          <li>
+            <a href='/tags/mutt.html'>mutt</a>
+          </li>
+          <li>
+            <a href='/tags/gmail.html'>gmail</a>
+          </li>
+          <li>
+            <a href='/tags/google apps.html'>google apps</a>
+          </li>
+          <li>
+            <a href='/tags/hubot.html'>hubot</a>
+          </li>
+          <li>
+            <a href='/tags/supervisor.html'>supervisor</a>
+          </li>
+          <li>
+            <a href='/tags/screenshot.html'>screenshot</a>
+          </li>
+          <li>
+            <a href='/tags/mplayer.html'>mplayer</a>
+          </li>
+          <li>
+            <a href='/tags/emacs.html'>emacs</a>
+          </li>
+          <li>
+            <a href='/tags/naming.html'>naming</a>
+          </li>
+          <li>
+            <a href='/tags/s3fs.html'>s3fs</a>
+          </li>
+          <li>
+            <a href='/tags/socket.io.html'>socket.io</a>
+          </li>
+          <li>
+            <a href='/tags/awesome.html'>awesome</a>
+          </li>
+          <li>
+            <a href='/tags/python.html'>python</a>
+          </li>
+          <li>
+            <a href='/tags/image.html'>image</a>
+          </li>
+          <li>
+            <a href='/tags/capistrano.html'>capistrano</a>
+          </li>
+          <li>
+            <a href='/tags/supervisord.html'>supervisord</a>
+          </li>
+          <li>
+            <a href='/tags/urxvt.html'>urxvt</a>
+          </li>
+          <li>
+            <a href='/tags/rxvt-unicode.html'>rxvt-unicode</a>
+          </li>
+          <li>
+            <a href='/tags/lxc.html'>lxc</a>
+          </li>
+        </ul>
       </div>
     </div>
   </body>
