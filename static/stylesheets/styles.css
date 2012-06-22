@@ -154,6 +154,10 @@ img .notes {
     list-style:none;
     padding:5px 10px;
 }
+.tag-page li{
+    list-style:none;
+    padding-top:15px;
+}
 .red {
     color:#FF0000;
 }
