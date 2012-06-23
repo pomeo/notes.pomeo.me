@@ -2,13 +2,44 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>http://notes.sovechkin.com/</id>
   <title>notes.sovechkin.com</title>
-  <updated>2012-06-22T15:48:17Z</updated>
+  <updated>2012-06-23T12:13:17Z</updated>
   <link rel="alternate" href="http://notes.sovechkin.com/"/>
   <link rel="self" href="http://notes.sovechkin.com/atom.xml"/>
   <author>
     <name>Sergey Ovechkin</name>
     <uri>http://sovechkin.com</uri>
   </author>
+  <entry>
+    <id>tag:notes.sovechkin.com,2012-06-23:/nanoc_github_pages.html</id>
+    <title type="html">deploy nanoc on github pages</title>
+    <published>2012-06-23T12:13:17Z</published>
+    <updated>2012-06-23T12:25:09Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/nanoc_github_pages.html"/>
+    <content type="html">&lt;p&gt;nanoc workspace:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;root [ -&amp;gt; "master" ]
+  |- content (nanoc templates)
+  |- layouts (nanoc layouts)
+  |- lib (ruby files extending nanoc)
+  |- output [ -&amp;gt; "gh-pages" ]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;create the gh-pages branch&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;  $ cd output
+  # create the isolated branch
+  $ git symbolic-ref HEAD refs/heads/master
+  $ rm .git/index
+  $ git clean -fdx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;in nanoc root&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;  $ nanoc compile
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;in &lt;strong&gt;nanoc_root/output&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;  $ git checkout gh-pages
+  $ git add .
+  $ git commit -a -m "First pages commit"
+  $ git push origin gh-pages
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
   <entry>
     <id>tag:notes.sovechkin.com,2012-06-22:/oblivion_theme_for_emacs.html</id>
     <title type="html">oblivion theme for Emacs</title>
@@ -142,16 +173,6 @@ HUBOT_GTALK_PASSWORD='password',HUBOT_GTALK_WHITELIST_USERS='user@jabber.com'
     <updated>2012-06-22T15:20:54Z</updated>
     <link rel="alternate" href="http://notes.sovechkin.com/tar_directory.html"/>
     <content type="html">&lt;pre&gt;&lt;code class="bash"&gt;$ tar --create --file=file.tar.gz dir
-&lt;/code&gt;&lt;/pre&gt;
-</content>
-  </entry>
-  <entry>
-    <id>tag:notes.sovechkin.com,2012-06-22:/domain_naming.html</id>
-    <title type="html">domain naming</title>
-    <published>2012-06-22T15:19:17Z</published>
-    <updated>2012-06-22T15:20:17Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/domain_naming.html"/>
-    <content type="html">&lt;pre&gt;&lt;code class="bash"&gt;$ pwgen -A0 5
 &lt;/code&gt;&lt;/pre&gt;
 </content>
   </entry>
