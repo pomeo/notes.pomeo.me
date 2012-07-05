@@ -41,7 +41,7 @@ compile '*' do
     filter :haml
     layout 'default'
   end
-  layout 'default' unless item[:layout] == "none"
+  # layout 'default' unless item[:layout] == "none"
 end
 
 route '/atom.xml' do
