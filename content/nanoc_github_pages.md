@@ -13,17 +13,15 @@ nanoc workspace:
 </code></pre>
 create the gh-pages branch
 <pre><code class='bash'>  $ cd output
-  # create the isolated branch
-  $ git symbolic-ref HEAD refs/heads/master
-  $ rm .git/index
-  $ git clean -fdx
-</code></pre>
-in nanoc root
-<pre><code class='bash'>  $ nanoc compile
-</code></pre>
-in **nanoc_root/output**
-<pre><code class='bash'>  $ git checkout gh-pages
+  # initialize the local repository
+  $ git init
   $ git add .
-  $ git commit -a -m "First pages commit"
+  # commits your files
+  $ git commit -am "init"
+  # rename our master branch
+  $ git br -m master gh-pages
+  # add your github repository as origin
+  $ git remote add origin git@github.com:[user]/[name].git
+  # push to the remote repository
   $ git push origin gh-pages
 </code></pre>

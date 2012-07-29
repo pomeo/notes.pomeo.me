@@ -25,11 +25,7 @@
           <p>nanoc workspace:</p>
           <pre><code class="bash">root [ -&gt; "master" ]&#x000A;  |- content (nanoc templates)&#x000A;  |- layouts (nanoc layouts)&#x000A;  |- lib (ruby files extending nanoc)&#x000A;  |- output [ -&gt; "gh-pages" ]&#x000A;</code></pre>
           <p>create the gh-pages branch</p>
-          <pre><code class="bash">  $ cd output&#x000A;  # create the isolated branch&#x000A;  $ git symbolic-ref HEAD refs/heads/master&#x000A;  $ rm .git/index&#x000A;  $ git clean -fdx&#x000A;</code></pre>
-          <p>in nanoc root</p>
-          <pre><code class="bash">  $ nanoc compile&#x000A;</code></pre>
-          <p>in <strong>nanoc_root/output</strong></p>
-          <pre><code class="bash">  $ git checkout gh-pages&#x000A;  $ git add .&#x000A;  $ git commit -a -m "First pages commit"&#x000A;  $ git push origin gh-pages&#x000A;</code></pre>
+          <pre><code class="bash">  $ cd output&#x000A;  # initialize the local repository&#x000A;  $ git init&#x000A;  $ git add .&#x000A;  # commits your files&#x000A;  $ git commit -am "init"&#x000A;  # rename our master branch&#x000A;  $ git br -m master gh-pages&#x000A;  # add your github repository as origin&#x000A;  $ git remote add origin git@github.com:[user]/[name].git&#x000A;  # push to the remote repository&#x000A;  $ git push origin gh-pages&#x000A;</code></pre>
         </div>
         <div class='separator'>
           Blog Posts
