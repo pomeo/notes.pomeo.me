@@ -19,7 +19,7 @@ create the gh-pages branch
   # commits your files
   $ git commit -am "init"
   # rename our master branch
-  $ git br -m master gh-pages
+  $ git branch -m master gh-pages
   # add your github repository as origin
   $ git remote add origin git@github.com:[user]/[name].git
   # push to the remote repository
