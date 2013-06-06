@@ -2,13 +2,87 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>http://notes.sovechkin.com/</id>
   <title>notes.sovechkin.com</title>
-  <updated>2012-06-23T12:13:17Z</updated>
+  <updated>2013-06-06T06:07:34Z</updated>
   <link rel="alternate" href="http://notes.sovechkin.com/"/>
   <link rel="self" href="http://notes.sovechkin.com/atom.xml"/>
   <author>
     <name>Sergey Ovechkin</name>
     <uri>http://sovechkin.com</uri>
   </author>
+  <entry>
+    <id>tag:notes.sovechkin.com,2013-06-06:/iptables.html</id>
+    <title type="html">iptables</title>
+    <published>2013-06-06T06:07:34Z</published>
+    <updated>2013-06-06T06:50:12Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/iptables.html"/>
+    <content type="html">&lt;pre&gt;&lt;code class="bash"&gt;netstat -anp | grep LISTEN&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo nano /etc/iptables.firewall.rules&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;*filter
+
+# MongoDB
+-A INPUT -m state --state NEW -p tcp --destination-port 27017 -s x.x.x.x -j ACCEPT
+-A OUTPUT -d x.x.x.x -p tcp --source-port 27017 -m state --state ESTABLISHED -j ACCEPT
+-A INPUT -m state --state NEW -p tcp --destination-port 28017 -s x.x.x.x -j ACCEPT
+-A OUTPUT -d x.x.x.x -p tcp --source-port 28017 -m state --state ESTABLISHED -j ACCEPT
+
+# Redis
+-A INPUT -m state --state NEW -p tcp --destination-port 6379 -s x.x.x.x -j ACCEPT
+-A OUTPUT -d x.x.x.x -p tcp --source-port 6379 -m state --state ESTABLISHED -j ACCEPT
+
+# RabbitMQ
+-A INPUT -m state --state NEW -p tcp --destination-port 5672 -s x.x.x.x -j ACCEPT
+-A OUTPUT -d x.x.x.x -p tcp --source-port 5672 -m state --state ESTABLISHED -j ACCEPT
+-A INPUT -m state --state NEW -p tcp --destination-port 5673 -s x.x.x.x -j ACCEPT
+-A OUTPUT -d x.x.x.x -p tcp --source-port 5673 -m state --state ESTABLISHED -j ACCEPT
+-A INPUT -m state --state NEW -p tcp --destination-port 15672 -s x.x.x.x -j ACCEPT
+-A OUTPUT -d x.x.x.x -p tcp --source-port 15672 -m state --state ESTABLISHED -j ACCEPT
+
+# MariaDB
+-A INPUT -m state --state NEW -p tcp --destination-port 3306 -s x.x.x.x -j ACCEPT
+-A OUTPUT -d x.x.x.x -p tcp --source-port 3306 -m state --state ESTABLISHED -j ACCEPT
+
+#  Allow all loopback (lo0) traffic and drop all traffic to 127/8 that doesn't use lo0
+-A INPUT -i lo -j ACCEPT
+-A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
+
+#  Accept all established inbound connections
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+#  Allow all outbound traffic - you can modify this to only allow certain traffic
+-A OUTPUT -j ACCEPT
+
+#  Allow HTTP and HTTPS connections from anywhere (the normal ports for websites and SSL).
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+
+#  Allow ports for testing
+-A INPUT -p tcp --dport 8080:8090 -j ACCEPT
+
+#  Allow ports for MOSH (mobile shell)
+-A INPUT -p udp --dport 60000:61000 -j ACCEPT
+
+#  Allow SSH connections
+-A INPUT -p tcp -m state --state NEW --dport 2222 -j ACCEPT
+
+#  Allow ping
+-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+#  Log iptables denied calls
+-A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
+
+#  Reject all other inbound - default deny unless explicitly allowed policy
+-A INPUT -j REJECT
+-A FORWARD -j REJECT
+
+COMMIT&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo iptables-restore &amp;lt; /etc/iptables.firewall.rules&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo nano /etc/network/if-pre-up.d/firewall&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;#!/bin/sh
+/sbin/iptables-restore &amp;lt; /etc/iptables.firewall.rules&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo chmod +x /etc/network/if-pre-up.d/firewall&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <id>tag:notes.sovechkin.com,2012-06-23:/nanoc_github_pages.html</id>
     <title type="html">deploy nanoc on github pages</title>
@@ -162,16 +236,6 @@ HUBOT_GTALK_PASSWORD='password',HUBOT_GTALK_WHITELIST_USERS='user@jabber.com'
 &lt;pre&gt;&lt;code class="bash"&gt;$ sudo service supervisor start
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;look &lt;strong&gt;/home/hubot/error.log&lt;/strong&gt; for errors&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <id>tag:notes.sovechkin.com,2012-06-22:/tar_directory.html</id>
-    <title type="html">tar directory</title>
-    <published>2012-06-22T15:20:17Z</published>
-    <updated>2012-06-22T15:20:54Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/tar_directory.html"/>
-    <content type="html">&lt;pre&gt;&lt;code class="bash"&gt;$ tar --create --file=file.tar.gz dir
-&lt;/code&gt;&lt;/pre&gt;
 </content>
   </entry>
 </feed>
