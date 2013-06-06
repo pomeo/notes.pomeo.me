@@ -99,3 +99,7 @@
   :created_at: '2013-06-06 10:07:34 +04:00'
   :updated_at: 2013-06-06 10:50:12.478359099 +04:00
   :digest: 5a0f729bc9d4d2c45234cb109e1bbd692ff33e2a
+:content/reboot_server_on_out-of-memory_condition.md:
+  :created_at: '2013-06-06 11:01:42 +04:00'
+  :updated_at: 2013-06-06 11:05:18.422851438 +04:00
+  :digest: b27098f6b2040ad95eb7c154d68755ccdf45072d
