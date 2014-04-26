@@ -22,14 +22,21 @@
           <h1>
             express(node.js) + capistrano + supervisord
           </h1>
+          <pre><code>$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev&#x000A;$ sudo apt-get install libcairo2-dev libjpeg8-dev libgif-dev libpango1.0-dev g++ # not needed&#x000A;$ curl https://raw.github.com/creationix/nvm/v0.x.x/install.sh | sh&#x000A;$ source ~/.nvm/nvm.sh&#x000A;$ nvm install 0.x&#x000A;$ nvm alias default 0.x&#x000A;</code></pre>
+          <p>open</p>
+          <pre><code class="bash">/etc/init.d/supervisor&#x000A;</code></pre>
+          <p>find PATH and add <em>/home/ubuntu/.nvm/v0.x.x/bin</em></p>
+          <pre><code class="bash">PATH=/home/ubuntu/.nvm/v0.x.x/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr&#x000A;</code></pre>
           <p><strong><em>/etc/sudoers</em></strong></p>
-          <pre><code class="bash">user ALL=(ALL) PASSWD: ALL&#x000A;user ALL=NOPASSWD: /usr/bin/supervisorctl&#x000A;</code></pre>
-          <p>gem install capistrano-offroad</p>
+          <pre><code class="bash">ubuntu ALL=(ALL) PASSWD: ALL&#x000A;ubuntu ALL=NOPASSWD: /usr/bin/supervisorctl&#x000A;</code></pre>
+          <p>gem specific_install -l https://github.com/pomeo/capistrano-offroad</p>
           
           <p><strong><em>./config/deploy.rb</em></strong></p>
-          <pre><code class="bash">#========================&#x000A;#CONFIG&#x000A;#========================&#x000A;set :application, "site"&#x000A;&#x000A;require "capistrano-offroad"&#x000A;offroad_modules "defaults", "supervisord"&#x000A;set :supervisord_conf, "/etc/supervisor/supervisord.conf"&#x000A;set :supervisord_pidfile, "/var/run/supervisord.pid"&#x000A;&#x000A;set :appweb, "#{application}.com"&#x000A;set :repository,  "gitosis@git.yourgitserver.com:#{application}"&#x000A;set :user, "user"&#x000A;set :use_sudo, false&#x000A;set :deploy_via, :copy&#x000A;set :scm, :git&#x000A;#========================&#x000A;#ROLES&#x000A;#========================&#x000A;role :web, "#{appweb}"&#x000A;set :deploy_to, "/var/www/#{appweb}/www"&#x000A;</code></pre>
+          <pre><code class="bash">#========================&#x000A;#CONFIG&#x000A;#========================&#x000A;set :application, "site"&#x000A;#========================&#x000A;#CONFIG&#x000A;#========================&#x000A;require           "capistrano-offroad"&#x000A;offroad_modules   "defaults", "supervisord"&#x000A;set :repository,  "git@github.com:user/#{application}.git"&#x000A;set :supervisord_start_group, "name"&#x000A;set :supervisord_stop_group, "name"&#x000A;#========================&#x000A;#ROLES&#x000A;#========================&#x000A;set  :gateway,    "#{application}"  # main server&#x000A;role :app,        "ubuntu@10.3.x.x" # lxc container&#x000A; &#x000A;after "deploy:create_symlink", "deploy:npm_install", "deploy:restart"&#x000A;</code></pre>
           <p><strong><em>/etc/supervisor/conf.d/site.conf</em></strong></p>
-          <pre><code class="bash">[program:site]&#x000A;command=/usr/local/bin/node app.js&#x000A;directory=/var/www/site.com/www/current/&#x000A;user=nobody&#x000A;autostart=true&#x000A;autorestart=true&#x000A;startretries=3&#x000A;stdout_logfile=/var/www/site.com/www/shared/log/server.log&#x000A;stdout_logfile_maxbytes=1MB&#x000A;stdout_logfile_backups=10&#x000A;stderr_logfile=/var/www/site.com/www/shared/log/error.log&#x000A;stderr_logfile_maxbytes=1MB&#x000A;stderr_logfile_backups=10&#x000A;stopsignal=TERM&#x000A;environment=NODE_ENV=production&#x000A;</code></pre>
+          <pre><code class="bash">[program:site]&#x000A;command=node app.js&#x000A;directory=/home/ubuntu/www/current/&#x000A;user=nobody&#x000A;autostart=true&#x000A;autorestart=true&#x000A;startretries=3&#x000A;stdout_logfile=/home/ubuntu/www/logs/server.log&#x000A;stdout_logfile_maxbytes=1MB&#x000A;stdout_logfile_backups=10&#x000A;stderr_logfile=/home/ubuntu/www/logs/error.log&#x000A;stderr_logfile_maxbytes=1MB&#x000A;stderr_logfile_backups=10&#x000A;stopsignal=TERM&#x000A;environment=NODE_ENV='production'&#x000A;</code></pre>
+          <p>that’s all</p>
+          <pre><code class="bash">$ sudo service supervisor stop/start # not restart&#x000A;</code></pre>
           <p><strong><em>cap deploy:status</em></strong> - show supervisor processes<br />
           <strong><em>cap deploy:restart</em></strong> - restart all node.js</p>
         </div>
@@ -40,6 +47,9 @@
           </span>
         </div>
         <ul class='posts'>
+          <li>
+            <a href='/express_nodejs_capistrano_supervisord.html' title='express(node.js) + capistrano + supervisord'>express(node.js) + capistrano + supervisord</a>
+          </li>
           <li>
             <a href='/reboot_server_on_out-of-memory_condition.html' title='reboot server on out-of-memory condition'>reboot server on out-of-memory condition</a>
           </li>
@@ -89,9 +99,6 @@
             <a href='/ppa_of_s3fs_for_ubuntu_1004_lts_lucid.html' title='PPA of S3fs for Ubuntu 10.04 LTS Lucid'>PPA of S3fs for Ubuntu 10.04 LTS Lucid</a>
           </li>
           <li>
-            <a href='/express_nodejs_capistrano_supervisord.html' title='express(node.js) + capistrano + supervisord'>express(node.js) + capistrano + supervisord</a>
-          </li>
-          <li>
             <a href='/ppa_of_fresh_offlineimap_for_ubuntu_1040_lts_lucid.html' title='PPA of fresh OfflineIMAP for Ubuntu 10.04 LTS Lucid'>PPA of fresh OfflineIMAP for Ubuntu 10.04 LTS Lucid</a>
           </li>
           <li>
@@ -121,31 +128,10 @@
         </div>
         <ul class='tags'>
           <li>
-            <a href='/tags/s3fs.html'>s3fs</a>
-          </li>
-          <li>
-            <a href='/tags/nodejs.html'>nodejs</a>
+            <a href='/tags/screenshot.html'>screenshot</a>
           </li>
           <li>
             <a href='/tags/linux.html'>linux</a>
-          </li>
-          <li>
-            <a href='/tags/screencast.html'>screencast</a>
-          </li>
-          <li>
-            <a href='/tags/lxc.html'>lxc</a>
-          </li>
-          <li>
-            <a href='/tags/socket.io.html'>socket.io</a>
-          </li>
-          <li>
-            <a href='/tags/offlineimap.html'>offlineimap</a>
-          </li>
-          <li>
-            <a href='/tags/gmail.html'>gmail</a>
-          </li>
-          <li>
-            <a href='/tags/server.html'>server</a>
           </li>
           <li>
             <a href='/tags/mplayer.html'>mplayer</a>
@@ -154,10 +140,13 @@
             <a href='/tags/awesome.html'>awesome</a>
           </li>
           <li>
-            <a href='/tags/nanoc.html'>nanoc</a>
+            <a href='/tags/offlineimap.html'>offlineimap</a>
           </li>
           <li>
-            <a href='/tags/github.html'>github</a>
+            <a href='/tags/s3fs.html'>s3fs</a>
+          </li>
+          <li>
+            <a href='/tags/nodejs.html'>nodejs</a>
           </li>
           <li>
             <a href='/tags/capistrano.html'>capistrano</a>
@@ -166,7 +155,7 @@
             <a href='/tags/supervisord.html'>supervisord</a>
           </li>
           <li>
-            <a href='/tags/screenshot.html'>screenshot</a>
+            <a href='/tags/iptables.html'>iptables</a>
           </li>
           <li>
             <a href='/tags/ubuntu.html'>ubuntu</a>
@@ -175,16 +164,13 @@
             <a href='/tags/emacs.html'>emacs</a>
           </li>
           <li>
-            <a href='/tags/iptables.html'>iptables</a>
+            <a href='/tags/gmail.html'>gmail</a>
+          </li>
+          <li>
+            <a href='/tags/lxc.html'>lxc</a>
           </li>
           <li>
             <a href='/tags/naming.html'>naming</a>
-          </li>
-          <li>
-            <a href='/tags/hubot.html'>hubot</a>
-          </li>
-          <li>
-            <a href='/tags/supervisor.html'>supervisor</a>
           </li>
           <li>
             <a href='/tags/python.html'>python</a>
@@ -193,16 +179,37 @@
             <a href='/tags/image.html'>image</a>
           </li>
           <li>
-            <a href='/tags/urxvt.html'>urxvt</a>
+            <a href='/tags/hubot.html'>hubot</a>
           </li>
           <li>
-            <a href='/tags/rxvt-unicode.html'>rxvt-unicode</a>
+            <a href='/tags/supervisor.html'>supervisor</a>
+          </li>
+          <li>
+            <a href='/tags/socket.io.html'>socket.io</a>
+          </li>
+          <li>
+            <a href='/tags/nanoc.html'>nanoc</a>
+          </li>
+          <li>
+            <a href='/tags/github.html'>github</a>
+          </li>
+          <li>
+            <a href='/tags/server.html'>server</a>
+          </li>
+          <li>
+            <a href='/tags/screencast.html'>screencast</a>
           </li>
           <li>
             <a href='/tags/mutt.html'>mutt</a>
           </li>
           <li>
             <a href='/tags/googleapps.html'>googleapps</a>
+          </li>
+          <li>
+            <a href='/tags/urxvt.html'>urxvt</a>
+          </li>
+          <li>
+            <a href='/tags/rxvt-unicode.html'>rxvt-unicode</a>
           </li>
         </ul>
       </div>

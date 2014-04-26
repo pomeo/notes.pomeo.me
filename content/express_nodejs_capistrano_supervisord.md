@@ -4,7 +4,8 @@ created_at: "2014-04-26 28:36:17 +04:00"
 title: "express(node.js) + capistrano + supervisord"
 tags: [ 'nodejs', 'capistrano', 'supervisord' ]
 ---
-<pre><code class='bash'>$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
+<pre><code>$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev
+$ sudo apt-get install libcairo2-dev libjpeg8-dev libgif-dev libpango1.0-dev g++ # not needed
 $ curl https://raw.github.com/creationix/nvm/v0.x.x/install.sh | sh
 $ source ~/.nvm/nvm.sh
 $ nvm install 0.x
