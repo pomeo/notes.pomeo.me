@@ -1,54 +1,67 @@
 ---
 kind: "article"
-created_at: "2012-06-21 21:33:17 +04:00"
+created_at: "2014-04-26 28:36:17 +04:00"
 title: "express(node.js) + capistrano + supervisord"
 tags: [ 'nodejs', 'capistrano', 'supervisord' ]
 ---
-***/etc/sudoers***
-<pre><code class='bash'>user ALL=(ALL) PASSWD: ALL
-user ALL=NOPASSWD: /usr/bin/supervisorctl
+<pre><code class='bash'>$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
+$ curl https://raw.github.com/creationix/nvm/v0.x.x/install.sh | sh
+$ source ~/.nvm/nvm.sh
+$ nvm install 0.x
+$ nvm alias default 0.x
 </code></pre>
-gem install capistrano-offroad
+open
+<pre><code class='bash'>/etc/init.d/supervisor
+</code></pre>
+find PATH and add */home/ubuntu/.nvm/v0.x.x/bin*
+<pre><code class='bash'>PATH=/home/ubuntu/.nvm/v0.x.x/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr
+</code></pre>
+***/etc/sudoers***
+<pre><code class='bash'>ubuntu ALL=(ALL) PASSWD: ALL
+ubuntu ALL=NOPASSWD: /usr/bin/supervisorctl
+</code></pre>
+gem specific_install -l https://github.com/pomeo/capistrano-offroad
 
 ***./config/deploy.rb***
 <pre><code class='bash'>#========================
 #CONFIG
 #========================
 set :application, "site"
-
-require "capistrano-offroad"
-offroad_modules "defaults", "supervisord"
-set :supervisord_conf, "/etc/supervisor/supervisord.conf"
-set :supervisord_pidfile, "/var/run/supervisord.pid"
-
-set :appweb, "#{application}.com"
-set :repository,  "gitosis@git.yourgitserver.com:#{application}"
-set :user, "user"
-set :use_sudo, false
-set :deploy_via, :copy
-set :scm, :git
+#========================
+#CONFIG
+#========================
+require           "capistrano-offroad"
+offroad_modules   "defaults", "supervisord"
+set :repository,  "git@github.com:user/#{application}.git"
+set :supervisord_start_group, "name"
+set :supervisord_stop_group, "name"
 #========================
 #ROLES
 #========================
-role :web, "#{appweb}"
-set :deploy_to, "/var/www/#{appweb}/www"
+set  :gateway,    "#{application}"  # main server
+role :app,        "ubuntu@10.3.x.x" # lxc container
+ 
+after "deploy:create_symlink", "deploy:npm_install", "deploy:restart"
 </code></pre>
 ***/etc/supervisor/conf.d/site.conf***
 <pre><code class='bash'>[program:site]
-command=/usr/local/bin/node app.js
-directory=/var/www/site.com/www/current/
+command=node app.js
+directory=/home/ubuntu/www/current/
 user=nobody
 autostart=true
 autorestart=true
 startretries=3
-stdout_logfile=/var/www/site.com/www/shared/log/server.log
+stdout_logfile=/home/ubuntu/www/logs/server.log
 stdout_logfile_maxbytes=1MB
 stdout_logfile_backups=10
-stderr_logfile=/var/www/site.com/www/shared/log/error.log
+stderr_logfile=/home/ubuntu/www/logs/error.log
 stderr_logfile_maxbytes=1MB
 stderr_logfile_backups=10
 stopsignal=TERM
-environment=NODE_ENV=production
+environment=NODE_ENV='production'
+</code></pre>
+that’s all
+<pre><code class='bash'>$ sudo service supervisor stop/start # not restart
 </code></pre>
 ***cap deploy:status*** - show supervisor processes  
 ***cap deploy:restart*** - restart all node.js
