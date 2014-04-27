@@ -6,7 +6,7 @@ tags: [ 'nodejs', 'capistrano', 'supervisord' ]
 ---
 <pre><code>$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev
 $ sudo apt-get install libcairo2-dev libjpeg8-dev libgif-dev libpango1.0-dev g++ # not needed
-$ curl https://raw.github.com/creationix/nvm/v0.x.x/install.sh | sh
+$ curl https://raw.githubusercontent.com/creationix/nvm/v0.x.x/install.sh | sh
 $ source ~/.nvm/nvm.sh
 $ nvm install 0.x
 $ nvm alias default 0.x
