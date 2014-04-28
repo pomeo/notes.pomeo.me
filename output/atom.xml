@@ -80,6 +80,19 @@ environment=NODE_ENV='production'
 </content>
   </entry>
   <entry>
+    <id>tag:notes.sovechkin.com,2014-04-21:/ssh_copy_id.html</id>
+    <title type="html">copy pubkey without ssh-copy-id</title>
+    <published>2014-04-21T00:36:17Z</published>
+    <updated>2014-05-23T05:41:15Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/ssh_copy_id.html"/>
+    <content type="html">&lt;pre&gt;&lt;code&gt;cat ~/id_dsa.pub | ssh user@host \
+"(cat &amp;gt; tmp.pubkey ; mkdir -p .ssh ; touch .ssh/authorized_keys ; \
+sed -i.bak -e '/$(awk '{print $NF}' ~/id_dsa.pub)/d' .ssh/authorized_keys; \
+cat tmp.pubkey &amp;gt;&amp;gt; .ssh/authorized_keys; rm tmp.pubkey)"
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
     <id>tag:notes.sovechkin.com,2013-06-06:/reboot_server_on_out-of-memory_condition.html</id>
     <title type="html">reboot server on out-of-memory condition</title>
     <published>2013-06-06T07:01:42Z</published>
@@ -193,15 +206,6 @@ COMMIT&lt;/code&gt;&lt;/pre&gt;
   # push to the remote repository
   $ git push origin gh-pages
 &lt;/code&gt;&lt;/pre&gt;
-</content>
-  </entry>
-  <entry>
-    <id>tag:notes.sovechkin.com,2012-06-22:/oblivion_theme_for_emacs.html</id>
-    <title type="html">oblivion theme for Emacs</title>
-    <published>2012-06-22T15:48:17Z</published>
-    <updated>2012-06-22T15:47:35Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/oblivion_theme_for_emacs.html"/>
-    <content type="html">&lt;p&gt;&lt;a href="https://github.com/pomeo/oblivion-emacs"&gt;&lt;img src="http://img.sovechkin.com/oblivion.png" alt="oblivion theme for Emacs" /&gt;&lt;/a&gt;&lt;/p&gt;
 </content>
   </entry>
 </feed>

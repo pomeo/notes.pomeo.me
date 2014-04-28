@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta content='width=775' name='viewport'>
     <title>
-      Tag: mplayer
+      copy pubkey without ssh-copy-id
     </title>
     <link href='/stylesheets/styles.css' rel='stylesheet'>
     <link href='/favicon.png' rel='shortcut icon' type='image/png'>
@@ -20,20 +20,9 @@
       <div class='main'>
         <div class='post'>
           <h1>
-            Tag: mplayer
+            copy pubkey without ssh-copy-id
           </h1>
-          <ul class='tag-page'>
-            <li>
-              <h3>
-                <a class='permalink' href='/awesome_window_manager_and_mplayer_hotkeys.html' title='Full article'>&laquo; awesome window manager and mplayer hotkeys</a>
-              </h3>
-            </li>
-            <li>
-              <h3>
-                <a class='permalink' href='/mplayer_pipe_in_config.html' title='Full article'>&laquo; mplayer.pipe in config</a>
-              </h3>
-            </li>
-          </ul>
+          <pre><code>cat ~/id_dsa.pub | ssh user@host \&#x000A;"(cat &gt; tmp.pubkey ; mkdir -p .ssh ; touch .ssh/authorized_keys ; \&#x000A;sed -i.bak -e '/$(awk '{print $NF}' ~/id_dsa.pub)/d' .ssh/authorized_keys; \&#x000A;cat tmp.pubkey &gt;&gt; .ssh/authorized_keys; rm tmp.pubkey)"&#x000A;</code></pre>
         </div>
         <div class='separator'>
           Blog Posts
