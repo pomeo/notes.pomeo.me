@@ -56,6 +56,13 @@ input {
 p {
     margin:16px 0px;
 }
+blockquote {
+    font-family:monospace;
+    font-size:12px;
+    padding:4px 20px;
+    background:#3F3F3F;
+    color:#DCDCDC;
+}
 .photo a {
     text-decoration:none !important;
     background:#fff !important;
