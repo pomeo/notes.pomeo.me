@@ -19,7 +19,7 @@ preprocess do
 
   copy_static
   create_tag_pages
-  add_update_item_attributes
+  #add_update_item_attributes
 end
 
 compile '/' do
