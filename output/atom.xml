@@ -13,7 +13,7 @@
     <id>tag:notes.sovechkin.com,2014-04-27:/express_nodejs_capistrano_supervisord.html</id>
     <title type="html">express(node.js) + capistrano + supervisord</title>
     <published>2014-04-27T00:36:17Z</published>
-    <updated>2014-04-27T12:49:30Z</updated>
+    <updated>2014-04-27T00:36:17Z</updated>
     <link rel="alternate" href="http://notes.sovechkin.com/express_nodejs_capistrano_supervisord.html"/>
     <content type="html">&lt;pre&gt;&lt;code&gt;$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev
 $ sudo apt-get install libcairo2-dev libjpeg8-dev libgif-dev libpango1.0-dev g++ # not needed
@@ -83,20 +83,21 @@ environment=NODE_ENV='production'
     <id>tag:notes.sovechkin.com,2014-04-21:/ssh_copy_id.html</id>
     <title type="html">copy pubkey without ssh-copy-id</title>
     <published>2014-04-21T00:36:17Z</published>
-    <updated>2014-05-23T05:41:15Z</updated>
+    <updated>2014-04-21T00:36:17Z</updated>
     <link rel="alternate" href="http://notes.sovechkin.com/ssh_copy_id.html"/>
     <content type="html">&lt;pre&gt;&lt;code&gt;cat ~/id_dsa.pub | ssh user@host \
 "(cat &amp;gt; tmp.pubkey ; mkdir -p .ssh ; touch .ssh/authorized_keys ; \
 sed -i.bak -e '/$(awk '{print $NF}' ~/id_dsa.pub)/d' .ssh/authorized_keys; \
 cat tmp.pubkey &amp;gt;&amp;gt; .ssh/authorized_keys; rm tmp.pubkey)"
 &lt;/code&gt;&lt;/pre&gt;
+
 </content>
   </entry>
   <entry>
     <id>tag:notes.sovechkin.com,2014-04-16:/outlookcom_customdomains_activesync.html</id>
     <title type="html">outlook.com + custom domains + activesync (solved)</title>
     <published>2014-04-16T00:36:17Z</published>
-    <updated>2014-05-23T08:19:25Z</updated>
+    <updated>2014-04-16T00:36:17Z</updated>
     <link rel="alternate" href="http://notes.sovechkin.com/outlookcom_customdomains_activesync.html"/>
     <content type="html">&lt;p&gt;If you got here, then you have already seen the text below.&lt;/p&gt;
 
@@ -149,10 +150,23 @@ That doesn’t work either.&lt;/p&gt;
 </content>
   </entry>
   <entry>
+    <id>tag:notes.sovechkin.com,2014-03-22:/github_100644_100755.html</id>
+    <title type="html">github old mode 100644 new mode 100755</title>
+    <published>2014-03-22T15:01:17Z</published>
+    <updated>2014-03-22T15:01:17Z</updated>
+    <link rel="alternate" href="http://notes.sovechkin.com/github_100644_100755.html"/>
+    <content type="html">&lt;p&gt;old mode 100644&lt;br /&gt;
+new mode 100755&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;git config --global core.filemode false
+git config core.filemode false
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
     <id>tag:notes.sovechkin.com,2013-06-06:/reboot_server_on_out-of-memory_condition.html</id>
     <title type="html">reboot server on out-of-memory condition</title>
     <published>2013-06-06T07:01:42Z</published>
-    <updated>2013-06-06T07:05:18Z</updated>
+    <updated>2013-06-06T07:01:42Z</updated>
     <link rel="alternate" href="http://notes.sovechkin.com/reboot_server_on_out-of-memory_condition.html"/>
     <content type="html">&lt;p&gt;&lt;strong&gt;&lt;em&gt;/etc/sysctl.conf&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class="bash"&gt;vm.panic_on_oom=1
@@ -161,78 +175,5 @@ kernel.panic=10
 &lt;p&gt;The vm.panic_on_oom=1 line enables panic on OOM, the kernel.panic=10 line tells the kernel to reboot ten seconds after panicking.&lt;/p&gt;
 </content>
   </entry>
-  <entry>
-    <id>tag:notes.sovechkin.com,2013-06-06:/iptables.html</id>
-    <title type="html">iptables</title>
-    <published>2013-06-06T06:07:34Z</published>
-    <updated>2013-06-06T06:50:12Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/iptables.html"/>
-    <content type="html">&lt;pre&gt;&lt;code class="bash"&gt;netstat -anp | grep LISTEN&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo nano /etc/iptables.firewall.rules&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class="bash"&gt;*filter
-
-# MongoDB
--A INPUT -m state --state NEW -p tcp --destination-port 27017 -s x.x.x.x -j ACCEPT
--A OUTPUT -d x.x.x.x -p tcp --source-port 27017 -m state --state ESTABLISHED -j ACCEPT
--A INPUT -m state --state NEW -p tcp --destination-port 28017 -s x.x.x.x -j ACCEPT
--A OUTPUT -d x.x.x.x -p tcp --source-port 28017 -m state --state ESTABLISHED -j ACCEPT
-
-# Redis
--A INPUT -m state --state NEW -p tcp --destination-port 6379 -s x.x.x.x -j ACCEPT
--A OUTPUT -d x.x.x.x -p tcp --source-port 6379 -m state --state ESTABLISHED -j ACCEPT
-
-# RabbitMQ
--A INPUT -m state --state NEW -p tcp --destination-port 5672 -s x.x.x.x -j ACCEPT
--A OUTPUT -d x.x.x.x -p tcp --source-port 5672 -m state --state ESTABLISHED -j ACCEPT
--A INPUT -m state --state NEW -p tcp --destination-port 5673 -s x.x.x.x -j ACCEPT
--A OUTPUT -d x.x.x.x -p tcp --source-port 5673 -m state --state ESTABLISHED -j ACCEPT
--A INPUT -m state --state NEW -p tcp --destination-port 15672 -s x.x.x.x -j ACCEPT
--A OUTPUT -d x.x.x.x -p tcp --source-port 15672 -m state --state ESTABLISHED -j ACCEPT
-
-# MariaDB
--A INPUT -m state --state NEW -p tcp --destination-port 3306 -s x.x.x.x -j ACCEPT
--A OUTPUT -d x.x.x.x -p tcp --source-port 3306 -m state --state ESTABLISHED -j ACCEPT
-
-#  Allow all loopback (lo0) traffic and drop all traffic to 127/8 that doesn't use lo0
--A INPUT -i lo -j ACCEPT
--A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
-
-#  Accept all established inbound connections
--A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-
-#  Allow all outbound traffic - you can modify this to only allow certain traffic
--A OUTPUT -j ACCEPT
-
-#  Allow HTTP and HTTPS connections from anywhere (the normal ports for websites and SSL).
--A INPUT -p tcp --dport 80 -j ACCEPT
--A INPUT -p tcp --dport 443 -j ACCEPT
-
-#  Allow ports for testing
--A INPUT -p tcp --dport 8080:8090 -j ACCEPT
-
-#  Allow ports for MOSH (mobile shell)
--A INPUT -p udp --dport 60000:61000 -j ACCEPT
-
-#  Allow SSH connections
--A INPUT -p tcp -m state --state NEW --dport 2222 -j ACCEPT
-
-#  Allow ping
--A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
-
-#  Log iptables denied calls
--A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
-
-#  Reject all other inbound - default deny unless explicitly allowed policy
--A INPUT -j REJECT
--A FORWARD -j REJECT
-
-COMMIT&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo iptables-restore &amp;lt; /etc/iptables.firewall.rules&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo nano /etc/network/if-pre-up.d/firewall&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class="bash"&gt;#!/bin/sh
-/sbin/iptables-restore &amp;lt; /etc/iptables.firewall.rules&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;sudo chmod +x /etc/network/if-pre-up.d/firewall&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-</content>
-  </entry>
 </feed>
+

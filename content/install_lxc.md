@@ -4,9 +4,8 @@ created_at: "2012-06-22 19:33:17 +04:00"
 title: "Install LXC (Linux Containers)"
 tags: [ 'lxc', 'linux' ]
 ---
-<http://lxc.sourceforge.net>
-<pre><code class='bash'>$ sudo apt-get install lxc bridge-utils
-$ sudo lxc-create -n name -t ubuntu -- -r lucid
+<pre><code class='bash'>$ sudo apt-get install lxc dnsmasq
+$ sudo lxc-create -n name -t ubuntu
 </code></pre>
 create /etc/network/if-up.d/lxc
 <pre><code class='bash'>#!/bin/bash
@@ -17,8 +16,8 @@ CMD_IPTABLES=/sbin/iptables
 CMD_ROUTE=/sbin/route
 NETWORK_BRIDGE_DEVICE_NAT=lxc-bridge-nat
 HOST_NETDEVICE=eth0
-PRIVATE_GW_NAT=10.0.2.1
-PRIVATE_NETMASK=255.255.255.0
+PRIVATE_GW_NAT=10.3.0.1
+PRIVATE_NETMASK=255.255.0.0
 
 ${CMD_BRCTL} addbr ${NETWORK_BRIDGE_DEVICE_NAT}
 ${CMD_BRCTL} setfd ${NETWORK_BRIDGE_DEVICE_NAT} 0
@@ -29,8 +28,8 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 insert in */var/lib/lxc/name/config*
 <pre><code class='bash'>lxc.network.type = veth
 lxc.network.flags = up
-lxc.network.link = lxc-bridge-nat                      
-lxc.network.name = eth0                                         
+lxc.network.link = lxc-bridge-nat
+lxc.network.name = eth0
 lxc.network.hwaddr = ac:de:48:00:0x:xx
 lxc.network.ipv4 = 10.0.2.xxx/24
 </code></pre>

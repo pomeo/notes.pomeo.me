@@ -22,12 +22,11 @@
           <h1>
             Install LXC (Linux Containers)
           </h1>
-          <p><a href="http://lxc.sourceforge.net">http://lxc.sourceforge.net</a></p>
-          <pre><code class="bash">$ sudo apt-get install lxc bridge-utils&#x000A;$ sudo lxc-create -n name -t ubuntu -- -r lucid&#x000A;</code></pre>
+          <pre><code class="bash">$ sudo apt-get install lxc dnsmasq&#x000A;$ sudo lxc-create -n name -t ubuntu&#x000A;</code></pre>
           <p>create /etc/network/if-up.d/lxc</p>
-          <pre><code class="bash">#!/bin/bash&#x000A;# script to setup a natted network for lxc guests&#x000A;CMD_BRCTL=/sbin/brctl&#x000A;CMD_IFCONFIG=/sbin/ifconfig&#x000A;CMD_IPTABLES=/sbin/iptables&#x000A;CMD_ROUTE=/sbin/route&#x000A;NETWORK_BRIDGE_DEVICE_NAT=lxc-bridge-nat&#x000A;HOST_NETDEVICE=eth0&#x000A;PRIVATE_GW_NAT=10.0.2.1&#x000A;PRIVATE_NETMASK=255.255.255.0&#x000A;&#x000A;${CMD_BRCTL} addbr ${NETWORK_BRIDGE_DEVICE_NAT}&#x000A;${CMD_BRCTL} setfd ${NETWORK_BRIDGE_DEVICE_NAT} 0&#x000A;${CMD_IFCONFIG} ${NETWORK_BRIDGE_DEVICE_NAT} ${PRIVATE_GW_NAT} netmask ${PRIVATE_NETMASK} promisc up&#x000A;${CMD_IPTABLES} -t nat -A POSTROUTING -o ${HOST_NETDEVICE} -j MASQUERADE&#x000A;echo 1 &gt; /proc/sys/net/ipv4/ip_forward&#x000A;</code></pre>
+          <pre><code class="bash">#!/bin/bash&#x000A;# script to setup a natted network for lxc guests&#x000A;CMD_BRCTL=/sbin/brctl&#x000A;CMD_IFCONFIG=/sbin/ifconfig&#x000A;CMD_IPTABLES=/sbin/iptables&#x000A;CMD_ROUTE=/sbin/route&#x000A;NETWORK_BRIDGE_DEVICE_NAT=lxc-bridge-nat&#x000A;HOST_NETDEVICE=eth0&#x000A;PRIVATE_GW_NAT=10.3.0.1&#x000A;PRIVATE_NETMASK=255.255.0.0&#x000A;&#x000A;${CMD_BRCTL} addbr ${NETWORK_BRIDGE_DEVICE_NAT}&#x000A;${CMD_BRCTL} setfd ${NETWORK_BRIDGE_DEVICE_NAT} 0&#x000A;${CMD_IFCONFIG} ${NETWORK_BRIDGE_DEVICE_NAT} ${PRIVATE_GW_NAT} netmask ${PRIVATE_NETMASK} promisc up&#x000A;${CMD_IPTABLES} -t nat -A POSTROUTING -o ${HOST_NETDEVICE} -j MASQUERADE&#x000A;echo 1 &gt; /proc/sys/net/ipv4/ip_forward&#x000A;</code></pre>
           <p>insert in <em>/var/lib/lxc/name/config</em></p>
-          <pre><code class="bash">lxc.network.type = veth&#x000A;lxc.network.flags = up&#x000A;lxc.network.link = lxc-bridge-nat                      &#x000A;lxc.network.name = eth0                                         &#x000A;lxc.network.hwaddr = ac:de:48:00:0x:xx&#x000A;lxc.network.ipv4 = 10.0.2.xxx/24&#x000A;</code></pre>
+          <pre><code class="bash">lxc.network.type = veth&#x000A;lxc.network.flags = up&#x000A;lxc.network.link = lxc-bridge-nat&#x000A;lxc.network.name = eth0&#x000A;lxc.network.hwaddr = ac:de:48:00:0x:xx&#x000A;lxc.network.ipv4 = 10.0.2.xxx/24&#x000A;</code></pre>
           <pre><code class="bash">echo "nameserver 8.8.8.8" &gt; /var/lib/lxc/name/rootfs/etc/resolvconf/resolv.conf.d/base&#x000A;</code></pre>
           <p>edit <em>/var/lib/lxc/name/rootfs/etc/network/interfaces</em></p>
           <pre><code class="bash">auto lo&#x000A;iface lo inet loopback&#x000A;&#x000A;auto eth0&#x000A;iface eth0 inet static&#x000A;  address   10.0.2.xxx&#x000A;  netmask   255.255.255.0&#x000A;  gateway   10.0.2.1&#x000A;</code></pre>
@@ -58,6 +57,9 @@
           </li>
           <li>
             <a href='/outlookcom_customdomains_activesync.html' title='outlook.com + custom domains + activesync (solved)'>outlook.com + custom domains + activesync (solved)</a>
+          </li>
+          <li>
+            <a href='/github_100644_100755.html' title='github old mode 100644 new mode 100755'>github old mode 100644 new mode 100755</a>
           </li>
           <li>
             <a href='/reboot_server_on_out-of-memory_condition.html' title='reboot server on out-of-memory condition'>reboot server on out-of-memory condition</a>
@@ -137,46 +139,49 @@
         </div>
         <ul class='tags'>
           <li>
+            <a href='/tags/hubot.html'>hubot</a>
+          </li>
+          <li>
+            <a href='/tags/supervisor.html'>supervisor</a>
+          </li>
+          <li>
+            <a href='/tags/nodejs.html'>nodejs</a>
+          </li>
+          <li>
             <a href='/tags/screenshot.html'>screenshot</a>
           </li>
           <li>
             <a href='/tags/linux.html'>linux</a>
           </li>
           <li>
-            <a href='/tags/mplayer.html'>mplayer</a>
+            <a href='/tags/nanoc.html'>nanoc</a>
           </li>
           <li>
-            <a href='/tags/awesome.html'>awesome</a>
-          </li>
-          <li>
-            <a href='/tags/offlineimap.html'>offlineimap</a>
-          </li>
-          <li>
-            <a href='/tags/s3fs.html'>s3fs</a>
-          </li>
-          <li>
-            <a href='/tags/nodejs.html'>nodejs</a>
-          </li>
-          <li>
-            <a href='/tags/capistrano.html'>capistrano</a>
-          </li>
-          <li>
-            <a href='/tags/supervisord.html'>supervisord</a>
-          </li>
-          <li>
-            <a href='/tags/iptables.html'>iptables</a>
+            <a href='/tags/github.html'>github</a>
           </li>
           <li>
             <a href='/tags/ubuntu.html'>ubuntu</a>
           </li>
           <li>
-            <a href='/tags/emacs.html'>emacs</a>
+            <a href='/tags/urxvt.html'>urxvt</a>
           </li>
           <li>
-            <a href='/tags/key.html'>key</a>
+            <a href='/tags/rxvt-unicode.html'>rxvt-unicode</a>
           </li>
           <li>
-            <a href='/tags/ssh.html'>ssh</a>
+            <a href='/tags/s3fs.html'>s3fs</a>
+          </li>
+          <li>
+            <a href='/tags/mutt.html'>mutt</a>
+          </li>
+          <li>
+            <a href='/tags/gmail.html'>gmail</a>
+          </li>
+          <li>
+            <a href='/tags/googleapps.html'>googleapps</a>
+          </li>
+          <li>
+            <a href='/tags/socket.io.html'>socket.io</a>
           </li>
           <li>
             <a href='/tags/outlook.com.html'>outlook.com</a>
@@ -188,13 +193,25 @@
             <a href='/tags/android.html'>android</a>
           </li>
           <li>
-            <a href='/tags/gmail.html'>gmail</a>
+            <a href='/tags/emacs.html'>emacs</a>
+          </li>
+          <li>
+            <a href='/tags/naming.html'>naming</a>
+          </li>
+          <li>
+            <a href='/tags/capistrano.html'>capistrano</a>
+          </li>
+          <li>
+            <a href='/tags/supervisord.html'>supervisord</a>
           </li>
           <li>
             <a href='/tags/lxc.html'>lxc</a>
           </li>
           <li>
-            <a href='/tags/naming.html'>naming</a>
+            <a href='/tags/offlineimap.html'>offlineimap</a>
+          </li>
+          <li>
+            <a href='/tags/iptables.html'>iptables</a>
           </li>
           <li>
             <a href='/tags/python.html'>python</a>
@@ -203,37 +220,22 @@
             <a href='/tags/image.html'>image</a>
           </li>
           <li>
-            <a href='/tags/hubot.html'>hubot</a>
+            <a href='/tags/key.html'>key</a>
           </li>
           <li>
-            <a href='/tags/supervisor.html'>supervisor</a>
-          </li>
-          <li>
-            <a href='/tags/socket.io.html'>socket.io</a>
-          </li>
-          <li>
-            <a href='/tags/nanoc.html'>nanoc</a>
-          </li>
-          <li>
-            <a href='/tags/github.html'>github</a>
+            <a href='/tags/ssh.html'>ssh</a>
           </li>
           <li>
             <a href='/tags/server.html'>server</a>
           </li>
           <li>
+            <a href='/tags/mplayer.html'>mplayer</a>
+          </li>
+          <li>
+            <a href='/tags/awesome.html'>awesome</a>
+          </li>
+          <li>
             <a href='/tags/screencast.html'>screencast</a>
-          </li>
-          <li>
-            <a href='/tags/mutt.html'>mutt</a>
-          </li>
-          <li>
-            <a href='/tags/googleapps.html'>googleapps</a>
-          </li>
-          <li>
-            <a href='/tags/urxvt.html'>urxvt</a>
-          </li>
-          <li>
-            <a href='/tags/rxvt-unicode.html'>rxvt-unicode</a>
           </li>
         </ul>
       </div>
