@@ -8,7 +8,7 @@ tags: [ 'lxc', 'linux' ]
 $ sudo lxc-create -n name -t ubuntu
 </code></pre>
 create /etc/network/if-up.d/lxc
-<pre><code class='bash'>#!/bin/bash
+<pre><code class='bash hljs'>#!/bin/bash
 # script to setup a natted network for lxc guests
 CMD_BRCTL=/sbin/brctl
 CMD_IFCONFIG=/sbin/ifconfig
