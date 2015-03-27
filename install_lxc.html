@@ -250,11 +250,6 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-      (function() {
-        treesaver.addListener(document, 'treesaver.articlechanged', function (e) {
-          _gaq.push(['_trackPageview', e.path]);
-        });
-      })();
     </script>
   </body>
 </html>
