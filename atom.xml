@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>http://notes.pomeo.me/</id>
+  <title>notes.pomeo.me</title>
+  <updated>2014-04-27T00:36:17Z</updated>
+  <link rel="alternate" href="http://notes.pomeo.me/"/>
+  <link rel="self" href="http://notes.pomeo.me/atom.xml"/>
+  <author>
+    <name>Sergey Ovechkin</name>
+    <uri>http://pomeo.me</uri>
+  </author>
+  <entry>
+    <id>tag:notes.pomeo.me,2014-04-27:/express_nodejs_capistrano_supervisord.html</id>
+    <title type="html">express(node.js) + capistrano + supervisord</title>
+    <published>2014-04-27T00:36:17Z</published>
+    <updated>2014-04-27T00:36:17Z</updated>
+    <link rel="alternate" href="http://notes.pomeo.me/express_nodejs_capistrano_supervisord.html"/>
+    <content type="html">&lt;pre&gt;&lt;code&gt;$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev
+$ sudo apt-get install libcairo2-dev libjpeg8-dev libgif-dev libpango1.0-dev g++ # not needed
+$ curl https://raw.githubusercontent.com/creationix/nvm/v0.x.x/install.sh | sh
+$ source ~/.nvm/nvm.sh
+$ nvm install 0.x
+$ nvm alias default 0.x
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;open&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;/etc/init.d/supervisor
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;find PATH and add &lt;em&gt;/home/ubuntu/.nvm/v0.x.x/bin&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;PATH=/home/ubuntu/.nvm/v0.x.x/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;/etc/sudoers&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;ubuntu ALL=(ALL) PASSWD: ALL
+ubuntu ALL=NOPASSWD: /usr/bin/supervisorctl
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;gem specific_install -l https://github.com/pomeo/capistrano-offroad&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;./config/deploy.rb&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;#========================
+#CONFIG
+#========================
+set :application, "site"
+#========================
+#CONFIG
+#========================
+require           "capistrano-offroad"
+offroad_modules   "defaults", "supervisord"
+set :repository,  "git@github.com:user/#{application}.git"
+set :supervisord_start_group, "name"
+set :supervisord_stop_group, "name"
+#========================
+#ROLES
+#========================
+set  :gateway,    "#{application}"  # main server
+role :app,        "ubuntu@10.3.x.x" # lxc container
+ 
+after "deploy:create_symlink", "deploy:npm_install", "deploy:restart"
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;/etc/supervisor/conf.d/site.conf&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;[program:site]
+command=node app.js
+directory=/home/ubuntu/www/current/
+user=nobody
+autostart=true
+autorestart=true
+startretries=3
+stdout_logfile=/home/ubuntu/www/logs/server.log
+stdout_logfile_maxbytes=1MB
+stdout_logfile_backups=10
+stderr_logfile=/home/ubuntu/www/logs/error.log
+stderr_logfile_maxbytes=1MB
+stderr_logfile_backups=10
+stopsignal=TERM
+environment=NODE_ENV='production'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;that’s all&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;$ sudo service supervisor stop/start # not restart
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;cap deploy:status&lt;/em&gt;&lt;/strong&gt; - show supervisor processes&lt;br /&gt;
+&lt;strong&gt;&lt;em&gt;cap deploy:restart&lt;/em&gt;&lt;/strong&gt; - restart all node.js&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.pomeo.me,2014-04-21:/ssh_copy_id.html</id>
+    <title type="html">copy pubkey without ssh-copy-id</title>
+    <published>2014-04-21T00:36:17Z</published>
+    <updated>2014-04-21T00:36:17Z</updated>
+    <link rel="alternate" href="http://notes.pomeo.me/ssh_copy_id.html"/>
+    <content type="html">&lt;pre&gt;&lt;code&gt;cat ~/id_dsa.pub | ssh user@host \
+"(cat &amp;gt; tmp.pubkey ; mkdir -p .ssh ; touch .ssh/authorized_keys ; \
+sed -i.bak -e '/$(awk '{print $NF}' ~/id_dsa.pub)/d' .ssh/authorized_keys; \
+cat tmp.pubkey &amp;gt;&amp;gt; .ssh/authorized_keys; rm tmp.pubkey)"
+&lt;/code&gt;&lt;/pre&gt;
+
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.pomeo.me,2014-04-16:/outlookcom_customdomains_activesync.html</id>
+    <title type="html">outlook.com + custom domains + activesync (solved)</title>
+    <published>2014-04-16T00:36:17Z</published>
+    <updated>2014-04-16T00:36:17Z</updated>
+    <link rel="alternate" href="http://notes.pomeo.me/outlookcom_customdomains_activesync.html"/>
+    <content type="html">&lt;p&gt;If you got here, then you have already seen the text below.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Exchange ActiveSync (EAS) settings for Outlook 2013 with Microsoft CUSTOM Live Domains / Outlook.com account &lt;/p&gt;
+
+  &lt;p&gt;If anyone can make this work, or find the person at Microsoft responsible for randomly setting EAS server names for Outlook.com accounts and Microsoft live custom domains (see http://domains.live.com), then they would be a god. I have been trying to find a solution to this for 6 months, and have spent about 80 hours talking to friendly but incompetent Microsoft Support People in the departments of, Microsoft Accounts, Outlook.com Accounts, Office 365, Exchange Server Support (because all other personnel transfer me there because they don’t understand how email works).&lt;/p&gt;
+
+  &lt;p&gt;I have tried the following servers names to setup Exchange ActiveSync (EAS) to connect with my live custom domains (see http://domains.live.com) to the Outlook 2013 email client.&lt;/p&gt;
+
+  &lt;p&gt;I am able to use EAS with a @outlook.com, @live.com, and @hotmail.com email address, by using “s.outlook.com” as a servername (by the way, I just found that today after 6 months and discussions with about 100 MS employees)&lt;/p&gt;
+
+  &lt;p&gt;However, “s.outlook.com” doesn’t work with live custom domains (which, it is unclear who manages their MX servers, outlook.com or some old live.com system)&lt;/p&gt;
+
+  &lt;p&gt;I have also tried the following names:
+“blu-m.hotmail.com”
+“www.outlook.com”
+“m.hotmail.com”
+“s.outlook.com”
+“snt-m.hotmail.com”&lt;/p&gt;
+
+  &lt;p&gt;No luck.&lt;/p&gt;
+
+  &lt;p&gt;And, I am 99.9999999% certain that of the 1000 times I typed in the password, I got it correct at least once.&lt;/p&gt;
+
+  &lt;p&gt;I am not the only one who has been trying to find a solution to this problem, nor have I been trying the longest. I have found blogs, forums, and even threads here that are over a year old and have no solution, or people claim to have a solution that worked for them, but it no longer works.&lt;/p&gt;
+
+  &lt;p&gt;What is the deal. You would think that Outlook 2013 should automatically setup any Microsoft related service automatically. All the other programs, excel, word, etc work seemlessly through skydrive to sync all settings based on Windows login credentials. Why is Outlook.com and Outlook 2013 have so much difficulty with this. Email is the oldest thing in the book to sync.&lt;/p&gt;
+
+  &lt;p&gt;Here are other threads that have either not found a solution, or some claim to have found solutions that clearly don’t work for others:&lt;/p&gt;
+
+  &lt;p&gt;The official documentation, that claims s.outlook.com is the solution for
+“Apps that support Exchange ActiveSync”, which I assume would include Outlook 2013, but apparently not. &lt;/p&gt;
+
+  &lt;p&gt;Also, you would think the correct instructions would be under
+“Microsoft Office -&amp;gt; Get info on setting up Outlook.com in Microsoft Office Outlook here.” But, that makes you believe it will work automatically, which would be the ideal behavior, but it doesn’t work with Microsoft live custom domains. &lt;/p&gt;
+
+  &lt;p&gt;Here they give: “m.outlook.com”, and use a custom domain as an example:
+http://help.outlook.com/en-Us/140/bb896613.aspx
+That doesn’t work either.&lt;/p&gt;
+
+  &lt;p&gt;here I am. Still no solution after a total of 6 months searching, and an unused Outlook 2013, which I paid for.&lt;/p&gt;
+
+  &lt;p&gt;Hopefully, this highlights how absurd it is that Microsoft hasn’t just given out the Exchange ActiveSync settings for Outlook.com Custom Domains that will work with Outlook 2013.&lt;/p&gt;
+
+  &lt;p&gt;Anyone? I personality know 3 IT colleagues who had the same problem (They don’t anymore, they gave up and instead use IMAP with gmail’s custom domains.) If I know 3, then how many other silent IT guys are out there?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The solution is simple, you need to create alias. Outlook.com -&amp;gt; Options -&amp;gt; Create an Outlook.com alias. Next you need to use this alias as login instead you@domain.com . That’s all.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.pomeo.me,2014-03-22:/github_100644_100755.html</id>
+    <title type="html">github old mode 100644 new mode 100755</title>
+    <published>2014-03-22T15:01:17Z</published>
+    <updated>2014-03-22T15:01:17Z</updated>
+    <link rel="alternate" href="http://notes.pomeo.me/github_100644_100755.html"/>
+    <content type="html">&lt;p&gt;old mode 100644&lt;br /&gt;
+new mode 100755&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;git config --global core.filemode false
+git config core.filemode false
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:notes.pomeo.me,2013-06-06:/reboot_server_on_out-of-memory_condition.html</id>
+    <title type="html">reboot server on out-of-memory condition</title>
+    <published>2013-06-06T07:01:42Z</published>
+    <updated>2013-06-06T07:01:42Z</updated>
+    <link rel="alternate" href="http://notes.pomeo.me/reboot_server_on_out-of-memory_condition.html"/>
+    <content type="html">&lt;p&gt;&lt;strong&gt;&lt;em&gt;/etc/sysctl.conf&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="bash"&gt;vm.panic_on_oom=1
+kernel.panic=10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The vm.panic_on_oom=1 line enables panic on OOM, the kernel.panic=10 line tells the kernel to reboot ten seconds after panicking.&lt;/p&gt;
+</content>
+  </entry>
+</feed>
+
