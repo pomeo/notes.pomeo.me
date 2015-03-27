@@ -19,10 +19,10 @@ index_filenames: [ 'index.html' ]
 # before and after the last site compilation.
 enable_output_diff: false
 
-base_url: "http://notes.sovechkin.com"
+base_url: "http://notes.pomeo.me"
 author_name: "Sergey Ovechkin"
-author_email: "me@sovechkin.com"
-author_uri: "http://sovechkin.com"
+author_email: "me@pomeo.me"
+author_uri: "http://pomeo.me"
 
 
 prune:

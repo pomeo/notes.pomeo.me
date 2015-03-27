@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <id>http://notes.sovechkin.com/</id>
-  <title>notes.sovechkin.com</title>
+  <id>http://notes.pomeo.me/</id>
+  <title>notes.pomeo.me</title>
   <updated>2014-04-27T00:36:17Z</updated>
-  <link rel="alternate" href="http://notes.sovechkin.com/"/>
-  <link rel="self" href="http://notes.sovechkin.com/atom.xml"/>
+  <link rel="alternate" href="http://notes.pomeo.me/"/>
+  <link rel="self" href="http://notes.pomeo.me/atom.xml"/>
   <author>
     <name>Sergey Ovechkin</name>
-    <uri>http://sovechkin.com</uri>
+    <uri>http://pomeo.me</uri>
   </author>
   <entry>
-    <id>tag:notes.sovechkin.com,2014-04-27:/express_nodejs_capistrano_supervisord.html</id>
+    <id>tag:notes.pomeo.me,2014-04-27:/express_nodejs_capistrano_supervisord.html</id>
     <title type="html">express(node.js) + capistrano + supervisord</title>
     <published>2014-04-27T00:36:17Z</published>
     <updated>2014-04-27T00:36:17Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/express_nodejs_capistrano_supervisord.html"/>
+    <link rel="alternate" href="http://notes.pomeo.me/express_nodejs_capistrano_supervisord.html"/>
     <content type="html">&lt;pre&gt;&lt;code&gt;$ sudo apt-get install supervisor git-core curl build-essential libssl-dev pkg-config libexpat1-dev libicu-dev
 $ sudo apt-get install libcairo2-dev libjpeg8-dev libgif-dev libpango1.0-dev g++ # not needed
 $ curl https://raw.githubusercontent.com/creationix/nvm/v0.x.x/install.sh | sh
@@ -80,11 +80,11 @@ environment=NODE_ENV='production'
 </content>
   </entry>
   <entry>
-    <id>tag:notes.sovechkin.com,2014-04-21:/ssh_copy_id.html</id>
+    <id>tag:notes.pomeo.me,2014-04-21:/ssh_copy_id.html</id>
     <title type="html">copy pubkey without ssh-copy-id</title>
     <published>2014-04-21T00:36:17Z</published>
     <updated>2014-04-21T00:36:17Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/ssh_copy_id.html"/>
+    <link rel="alternate" href="http://notes.pomeo.me/ssh_copy_id.html"/>
     <content type="html">&lt;pre&gt;&lt;code&gt;cat ~/id_dsa.pub | ssh user@host \
 "(cat &amp;gt; tmp.pubkey ; mkdir -p .ssh ; touch .ssh/authorized_keys ; \
 sed -i.bak -e '/$(awk '{print $NF}' ~/id_dsa.pub)/d' .ssh/authorized_keys; \
@@ -94,11 +94,11 @@ cat tmp.pubkey &amp;gt;&amp;gt; .ssh/authorized_keys; rm tmp.pubkey)"
 </content>
   </entry>
   <entry>
-    <id>tag:notes.sovechkin.com,2014-04-16:/outlookcom_customdomains_activesync.html</id>
+    <id>tag:notes.pomeo.me,2014-04-16:/outlookcom_customdomains_activesync.html</id>
     <title type="html">outlook.com + custom domains + activesync (solved)</title>
     <published>2014-04-16T00:36:17Z</published>
     <updated>2014-04-16T00:36:17Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/outlookcom_customdomains_activesync.html"/>
+    <link rel="alternate" href="http://notes.pomeo.me/outlookcom_customdomains_activesync.html"/>
     <content type="html">&lt;p&gt;If you got here, then you have already seen the text below.&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -150,11 +150,11 @@ That doesn’t work either.&lt;/p&gt;
 </content>
   </entry>
   <entry>
-    <id>tag:notes.sovechkin.com,2014-03-22:/github_100644_100755.html</id>
+    <id>tag:notes.pomeo.me,2014-03-22:/github_100644_100755.html</id>
     <title type="html">github old mode 100644 new mode 100755</title>
     <published>2014-03-22T15:01:17Z</published>
     <updated>2014-03-22T15:01:17Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/github_100644_100755.html"/>
+    <link rel="alternate" href="http://notes.pomeo.me/github_100644_100755.html"/>
     <content type="html">&lt;p&gt;old mode 100644&lt;br /&gt;
 new mode 100755&lt;/p&gt;
 &lt;pre&gt;&lt;code class="bash"&gt;git config --global core.filemode false
@@ -163,11 +163,11 @@ git config core.filemode false
 </content>
   </entry>
   <entry>
-    <id>tag:notes.sovechkin.com,2013-06-06:/reboot_server_on_out-of-memory_condition.html</id>
+    <id>tag:notes.pomeo.me,2013-06-06:/reboot_server_on_out-of-memory_condition.html</id>
     <title type="html">reboot server on out-of-memory condition</title>
     <published>2013-06-06T07:01:42Z</published>
     <updated>2013-06-06T07:01:42Z</updated>
-    <link rel="alternate" href="http://notes.sovechkin.com/reboot_server_on_out-of-memory_condition.html"/>
+    <link rel="alternate" href="http://notes.pomeo.me/reboot_server_on_out-of-memory_condition.html"/>
     <content type="html">&lt;p&gt;&lt;strong&gt;&lt;em&gt;/etc/sysctl.conf&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class="bash"&gt;vm.panic_on_oom=1
 kernel.panic=10
